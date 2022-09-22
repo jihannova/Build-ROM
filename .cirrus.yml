@@ -25,7 +25,7 @@ task:
 
   ccc_background_script:
       - sleep 150
-      - time rclone copy znxtproject:ccache/nad-13/ccache.tar.zst ~ -P
+      - time rclone copy znxtproject:ccache/$ROM_PROJECT/ccache.tar.zst ~ -P
       - ./setup.sh
 
   Retry_background_script:
@@ -37,8 +37,7 @@ task:
   UpROM_background_script:
       - cd ~/rom/out/target/product/maple_dsds
       - ls -lh
-      - time rclone copy $(ls *maple*OFFICIAL*.zip) znxtproject:NusantaraProject/$ROM_PROJECT/maple_dsds -P #&& time rclone copy $(ls *.md5sum) znxtproject:NusantaraProject/maple_dsds -P && ls -lh
-      #- curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="Build $(cd ~/rom/out/target/product/maple_dsds && ls *UNOFFICIAL*.zip) Uploaded Successfully!"
+      - time rclone copy $(ls *maple*OFFICIAL*.zip) znxtproject:NusantaraProject/$ROM_PROJECT/maple_dsds -P
 
   UpSampah_script:
       - ./build_zip.sh
