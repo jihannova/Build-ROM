@@ -1,16 +1,16 @@
 env:
     CIRRUS_CLONE_DEPTH: 1
     #gcp_credentials: "ENCRYPTED[52d9731bab8dea7e2f71cbd5162d10dc57e1c8a9e91779b86758948763c13b48d21681a2f0f20a8e6c5133dfbb445c47]"
-    Nusantara: "ENCRYPTED[6d427b0c7d66088f1d9c2efab442cdedb6265b8a30df2bd4757b4129a9c41fc57a4919591306d29078a7dd3f344626d9]"
-    rclone_config: "ENCRYPTED[aeda96413afa2753ebb393efec74bb8783d7938ec3bfeb8d5e1a16e2d8dd8e99262753e52aa65aa7b72b7c78091ea77a]"
+    Nusantara: "ENCRYPTED[!35640039e327d731ce3a0c030d67cb49429e5d9a4d1b92ff6aae0838c5ed135551f799e89ce8ec5293168ed2e2b62962!]"
+    rclone_config: "ENCRYPTED[!a27a2c09dd97e12c82703886607868a15df7b773a993313a0d372d9d33ea0a9ca5c7b8227e1e694e6b5307fd21232a67!]"
     #TG_TOKEN: "ENCRYPTED[!ae64f4fd826ab2764fcb72fb8656f12aa280fae3ca426bba90c70d53b08b7e08cc3a1f94af7f8144e2973d527456cd1b!]"
     #TG_CHAT_ID: "ENCRYPTED[!029352af8b1128d0d5cd801d06d2b1a11d0607221a92831ec33f68d87adeaa4165b6febf0226a205dc7cf5dd7e788d1d!]"
-    SF_USERNAME: "ENCRYPTED[371aee08273ca16519b183d9e4f7cf975326ae3ae849fa6d7a18ef0dd2b499da043fb5110364bf2be5cb17c3b667f36f]"
-    SF_PASS: "ENCRYPTED[d55b0aa9e88c7d44f2c4629ab621d4797bb70e667cfcf85d88f62a39d0544ad2f7c60c479a1a555ee62f8d00892b7bdc]"
+    SF_USERNAME: "ENCRYPTED[!6c4059493fb5150506013771f7eee2e4648aaaf16567621059ece4276f5a88006e9fd727548908b23f2794d70b3b2ed8!]"
+    SF_PASS: "ENCRYPTED[!122bab13210e1e2719e0362bc5d601afde38ecfb19797a74226d64a4ade63bfd5d303a2e685b0288fb135506a12e0448!]"
     ROM_PROJECT: "nad-13-wip"
-    GIT: "ENCRYPTED[19597b955a488d99076f21863907b164362f2b9292968da5818d3f223c5416fc54ec57810b52d03d396b3cd1387d6453]"
+    GIT: "ENCRYPTED[!5c0be80f35adbe5b62f4b5c0a5e18a7a95503c3ae288f0d3e835ad01027716980db4cae090e094be716335ea842c06a3!]"
     #DOCKER_HUB_PWD: "ENCRYPTED[45147df4523a226976c523c65f2a84d3361dff9316c97a1cef1aee1ac524b430d5a4b48e18f28603109a27f52bc7a721]"
-    TOKEN: "ENCRYPTED[45b453eeec90dbd34a701bfdc9af1bef3cb3f7428af2f566727e7576640f6ca65629e3ccb8e7a2ff381e445ea5f76c5f]"
+    TOKEN: "ENCRYPTED[!820ada0cc3426d85e54e55a7cc1586917d1ef7b4db01102982bab081bc5de2a124b45babc64631b1006cc2b28df530e1!]"
 
 task:
   name: Syncing, Building and Uploading
@@ -23,16 +23,10 @@ task:
   Env_background_script:
       - ./env.sh
 
-  Download_background_script:
+  ccc_background_script:
       - sleep 150
       - time rclone copy znxtproject:ccache/$ROM_PROJECT/ccache.tar.zst ~ -P
       - ./setup.sh
-
-  #Out_background_script:
-      #- cd ~/rom
-      #- time rclone copy znxtproject:ccache/$ROM_PROJECT/out.tar.zst ~/rom -P
-      #- time tar -xaf out.tar.zst
-      #- time rm -rf out.tar.zst
 
   Retry_background_script:
       - ./retry.sh
@@ -40,13 +34,13 @@ task:
   Build_script:
       - ./repo.sh
 
-  UploadROM_background_script:
+  UpROM_background_script:
       - cd ~/rom/out/target/product/maple_dsds
       - ls -lh
       - time rclone copy $(ls *maple*OFFICIAL*.zip) znxtproject:NusantaraProject/$ROM_PROJECT/maple_dsds -P #&& time rclone copy $(ls *.md5sum) znxtproject:NusantaraProject/maple_dsds -P && ls -lh
       #- curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="Build $(cd ~/rom/out/target/product/maple_dsds && ls *UNOFFICIAL*.zip) Uploaded Successfully!"
 
-  UploadCc_script:
+  UpSampah_script:
       - ./build_zip.sh
 
   SF_script:
