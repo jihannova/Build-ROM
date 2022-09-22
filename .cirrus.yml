@@ -14,7 +14,7 @@ env:
 
 task:
   name: Syncing, Building and Uploading
-  timeout_in: 4h
+  timeout_in: 2h
   container:
     image: arifjenong/rom:nad
     cpu: 8
