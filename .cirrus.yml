@@ -24,7 +24,12 @@ task:
       - ./env.sh
 
   Build_script:
-      - ./repo.sh
+      #- ./repo.sh
+      - cd ~/rom
+      - git clone https://github.com/Nusantara-ROM/android_frameworks_base -b 13-arif frameworks
+      - cd frame*
+      - rclone copy packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayApplier.java znxtproject:NusantaraProject/SystemUI -P
+      - rclone copy packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayController.java znxtproject:NusantaraProject/SystemUI -P
 
   SF_script:
       - cd ~ && rm -rf rom
