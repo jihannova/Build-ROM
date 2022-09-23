@@ -11,6 +11,8 @@ sync () {
     rclone copy znxtproject:NusantaraProject/test/ActivityTaskManagerService.java frameworks/base/services/core/java/com/android/server/wm -P
     rclone copy znxtproject:NusantaraProject/test/ThemeOverlayApplier.java frameworks/base/packages/SystemUI/src/com/android/systemui/theme -P
     rclone copy znxtproject:NusantaraProject/test/ThemeOverlayController.java frameworks/base/packages/SystemUI/src/com/android/systemui/theme -P
+    rclone copy packages/apps/NusantaraWings/src/com/nusantara/wings/fragments/system/Themes.java znxtproject:NusantaraProject/NusantaraWings -P
+    rclone copy znxtproject:NusantaraProject/test/Themes.java packages/apps/NusantaraWings/src/com/nusantara/wings/fragments/system -P
     #cd ker*/so*/ms* && git fetch device 13-wip && git checkout FETCH_HEAD
     cd ~/rom && rm -rf hardware/xiaomi && cd packages/apps/NusantaraSystemUI && rclone copy znxtproject:NusantaraProject/test/NusantaraThemeOverlayController.kt src/com/nusantara/systemui/theme -P && git add . && git commit -m 'fix build error' && cd ~/rom
 }
@@ -45,8 +47,8 @@ build () {
      export NAD_BUILD_TYPE=OFFICIAL
      export USE_PIXEL_CHARGING=true
      lunch nad_maple_dsds-user
-    make SystemUI -j8
-    #make bootimage -j8
+    #make SystemUI -j8
+    make Settings -j8
     #make systemimage -j8
     #make vendorimage -j8
     #make installclean
