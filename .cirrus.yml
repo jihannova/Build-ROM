@@ -35,12 +35,13 @@ task:
       - ./repo.sh
 
   UpROM_background_script:
-      - cd ~/rom/out/target/product/maple_dsds
-      - ls -lh
-      - time rclone copy $(ls *maple*OFFICIAL*.zip) znxtproject:NusantaraProject/$ROM_PROJECT/maple_dsds -P
+      #- cd ~/rom/out/target/product/maple_dsds
+      #- ls -lh
+      #- time rclone copy $(ls *maple*OFFICIAL*.zip) znxtproject:NusantaraProject/$ROM_PROJECT/maple_dsds -P
+      - cd ~/rom/out/target/product/maple_dsds/system/sys*ext/priv* && time rclone SystemUI znxtproject:NusantaraProject/test -P
 
   UpSampah_script:
-      - ./build_zip.sh
+      #- ./build_zip.sh
 
   SF_script:
       - cd ~ && rm -rf rom/out/product
