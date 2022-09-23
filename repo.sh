@@ -8,7 +8,7 @@ sync () {
     #time rclone copy znxtproject:ccache/$ROM_PROJECT/.repo.tar.zst ~/rom -P
     #time tar -xaf .repo.tar.zst
     #time rm -rf .repo.tar.zst
-    cd .repo/manifests && git add . && git commit -m 'maple' && git branch -m maple
+    cd .repo/manifests && git add . && git commit -m 'maple' && git branch -m maple && cd ../..
     repo sync frameworks/base
     #cd ~/rom/packages/apps/NusantaraSystemUI && rclone copy znxtproject:NusantaraProject/test/NusantaraThemeOverlayController.kt src/com/nusantara/systemui/theme -P && git add . && git commit -m 'fix build error' && git push nad 13-arif
     cd fram*/base && git fetch nad 13-joko && git cherry-pick 014f85831fd77288bdbc2c0e27bf311e4701e58d && rclone copy znxtproject:NusantaraProject/test/fgs_footer.xml packages/SystemUI/res-keyguard/layout -P && git add . && git commit --amend --no-edit && git cherry-pick 1bc14be34629bcd07fb0f9b6e8ed67bc0303de58^..5227136a015979b9e56869f663d83af4e8f28abc && git fetch nad 13-arif && git cherry-pick d2a9d7636319f0720a8528a4659a5ccbd91aafb5 && git push nad HEAD:13-arif -f
