@@ -2,9 +2,6 @@
     
 sync () {
     cd ~/rom
-    #repo init --depth=1 --no-repo-verify -u ${Nusantara} -b 13 -g default,-mips,-darwin,-notdefault
-    #rclone copy znxtproject:NusantaraProject/manifest/13/nusantara.xml .repo/manifests/snippets -P
-    #rclone copy znxtproject:NusantaraProject/manifest/13/local_nad.xml .repo/local_manifests -P
     time rclone copy znxtproject:ccache/$ROM_PROJECT/.repo.tar.zst ~/rom -P
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
@@ -47,10 +44,10 @@ build () {
      lunch nad_maple_dsds-user
     #make sepolicy -j8
     #make bootimage -j8
-    make systemimage -j8
+    #make systemimage -j8
     #make vendorimage -j8
     #make installclean
-    #mka nad -j8
+    mka nad -j8
 }
 
 compile () {
@@ -82,10 +79,10 @@ push_vendor () {
 
 cd ~/rom
 ls -lh
-compile &
+compile #&
 #sleep 55m
-sleep 113m
-kill %1
+#sleep 113m
+#kill %1
 #push_kernel
 #push_device
 #push_yoshino
