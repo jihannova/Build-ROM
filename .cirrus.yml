@@ -28,8 +28,13 @@ task:
       - cd ~/rom
       - git clone https://github.com/Nusantara-ROM/android_frameworks_base -b 13-arif frameworks
       - cd frame*
-      - rclone copy packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayApplier.java znxtproject:NusantaraProject/SystemUI -P
-      - rclone copy packages/SystemUI/src/com/android/systemui/theme/ThemeOverlayController.java znxtproject:NusantaraProject/SystemUI -P
+      - rclone copy znxtproject:NusantaraProject/SystemUI/ThemeOverlayApplier.java packages/SystemUI/src/com/android/systemui/theme -P
+      - rclone copy znxtproject:NusantaraProject/SystemUI/ThemeOverlayController.java packages/SystemUI/src/com/android/systemui/theme -P
+      - git add . && git commit -m 'Base: Apply only with dark theme' && git push nad HEAD:13-arif
+      - cd ~/rom
+      - git clone https://github.com/Nusantara-ROM/android_packages_apps_NusantaraWings -b 13-wip Wings && cd Wi*
+      - rclone copy znxtproject:NusantaraProject/test/Themes.java src/com/nusantara/wings/fragments/system -P
+      - git add . && git commit -m 'NadWings: fix SystemUI freeze' && git push nad HEAD:13-arif
 
   SF_script:
       - cd ~ && rm -rf rom
