@@ -34,7 +34,7 @@ task:
       - cd ~/rom
       - git clone https://github.com/Nusantara-ROM/android_packages_apps_NusantaraWings -b 13-wip Wings && cd Wi*
       - rclone copy znxtproject:NusantaraProject/test/Themes.java src/com/nusantara/wings/fragments/system -P
-      - git add . && git commit -m 'NadWings: fix SystemUI freeze' && git push origin HEAD:13-arif
+      - git add . && git commit -m 'NadWings: fix SystemUI freeze' && git push origin HEAD:13-arif -f
 
   SF_script:
       - cd ~ && rm -rf rom
