@@ -6,13 +6,6 @@ sync () {
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
-    #rclone copy znxtproject:NusantaraProject/test/device_framework_manifest.xml device/sony/yoshino-common -P
-    #rclone copy znxtproject:NusantaraProject/test/device_framework_manifest_dsds.xml device/sony/yoshino-common -P
-    rclone copy znxtproject:NusantaraProject/test/ActivityTaskManagerService.java frameworks/base/services/core/java/com/android/server/wm -P
-    rclone copy znxtproject:NusantaraProject/test/ThemeOverlayApplier.java frameworks/base/packages/SystemUI/src/com/android/systemui/theme -P
-    rclone copy znxtproject:NusantaraProject/test/ThemeOverlayController.java frameworks/base/packages/SystemUI/src/com/android/systemui/theme -P
-    #cd ker*/so*/ms* && git fetch device 13-wip && git checkout FETCH_HEAD
-    cd ~/rom && rm -rf hardware/xiaomi && cd packages/apps/NusantaraSystemUI && rclone copy znxtproject:NusantaraProject/test/NusantaraThemeOverlayController.kt src/com/nusantara/systemui/theme -P && git add . && git commit -m 'fix build error' && cd ~/rom
 }
 
 com () {
@@ -45,10 +38,10 @@ build () {
      export NAD_BUILD_TYPE=OFFICIAL
      export USE_PIXEL_CHARGING=true
      lunch nad_maple_dsds-user
-    make SystemUI -j8
-    #make bootimage -j8
+    #make SystemUI -j8
+    make bootimage -j8
     #make systemimage -j8
-    #make vendorimage -j8
+    make vendorimage -j8
     #make installclean
     #mka nad -j8
 }
