@@ -6,7 +6,6 @@ sync () {
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
-    rclone copy znxtproject:CherishOS/test/Android.bp device/sony/yoshino-common/hardware/power-libperfmgr -P
 }
 
 com () {
@@ -40,11 +39,11 @@ build () {
      #export USE_PIXEL_CHARGING=true
      lunch cherish_maple_dsds-user
     #make SystemUI -j8
-    make bootimage -j8
-    #make systemimage -j8
-    make vendorimage -j8
+    #make bootimage -j8
+    make systemimage -j8
+    #make vendorimage -j8
     #make installclean
-    #mka nad -j8
+    #mka bacon -j8
 }
 
 compile () {
