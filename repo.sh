@@ -35,10 +35,10 @@ build () {
      export TZ=Asia/Jakarta
      #export SELINUX_IGNORE_NEVERALLOWS=true
      #export ALLOW_MISSING_DEPENDENCIES=true
-     export USE_GAPPS=true
-     export NAD_BUILD_TYPE=OFFICIAL
-     export USE_PIXEL_CHARGING=true
-     lunch nad_maple_dsds-user
+     #export USE_GAPPS=true
+     #export NAD_BUILD_TYPE=OFFICIAL
+     #export USE_PIXEL_CHARGING=true
+     lunch cherish_maple_dsds-user
     #make SystemUI -j8
     make bootimage -j8
     #make systemimage -j8
