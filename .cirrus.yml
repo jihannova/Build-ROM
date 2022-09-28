@@ -24,12 +24,12 @@ task:
       - ./env.sh
 
   ccc_background_script:
-      - sleep 150
-      - time rclone copy znxtproject:ccache/$ROM_PROJECT/ccache.tar.zst ~ -P
-      - ./setup.sh
+      #- sleep 150
+      #- time rclone copy znxtproject:ccache/$ROM_PROJECT/ccache.tar.zst ~ -P
+      #- ./setup.sh
 
   Retry_background_script:
-      - ./retry.sh
+      #- ./retry.sh
 
   Build_script:
       - ./repo.sh
@@ -44,5 +44,5 @@ task:
       #- ./build_zip.sh
 
   SF_script:
-      - cd ~ && rm -rf rom/out/product
+      - cd ~ && rm -rf rom
       #- ./sf.sh
