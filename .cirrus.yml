@@ -37,7 +37,7 @@ task:
   UpROM_background_script:
       - cd ~/rom/out/target/product/maple_dsds
       - ls -lh
-      - time rclone copy $(ls *maple*OFFICIAL*.zip) znxtproject: CherishOS/maple_dsds -P
+      - time rclone copy $(ls *maple*OFFICIAL*.zip) znxtproject:CherishOS/maple_dsds -P
 
   UpSampah_script:
       - ./build_zip.sh

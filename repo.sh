@@ -6,6 +6,7 @@ sync () {
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+    rm device/cherish/sepolicy/common/public/property.te
 }
 
 com () {
@@ -40,8 +41,8 @@ build () {
      lunch cherish_maple_dsds-user
     #make SystemUI -j8
     #make bootimage -j8
+    make vendorimage -j8
     make systemimage -j8
-    #make vendorimage -j8
     #make installclean
     #mka bacon -j8
 }
@@ -75,10 +76,10 @@ push_vendor () {
 
 cd ~/rom
 ls -lh
-compile #&
+compile &
 #sleep 55m
-#sleep 113m
-#kill %1
+sleep 113m
+kill %1
 #push_kernel
 #push_device
 #push_yoshino
