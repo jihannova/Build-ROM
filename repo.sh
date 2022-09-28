@@ -8,6 +8,7 @@ sync () {
     #time tar -xaf .repo.tar.zst
     #time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 }
 
 com () {
