@@ -27,11 +27,12 @@ task:
       #- ./repo.sh
       - cd ~/rom
       - git clone https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 kernel && cd ker*
-      - git cherry-pick 7a1997a41ed31f39099cb9fc7ec4efceebc10d25
-      - git cherry-pick a326e036889f0ce560e85d5d57d1965fe038ad6c^..b104a54afdedd610e0ccee7df030d98d9015862f
-      - git cherry-pick 425132d914a2639dc45b99f1dcb89c541257f237^..20fd41090a83c9a23835132d56bd91f0041e3a1d
-      - git cherry-pick 45b020b012d31891ef1fc90632042736dfb42ed0^..f4c6d3fa4b351e2b9c7d1ae6a0ff1b25a945ffac
-      - git cherry-pick a13709186756c26db10d61f4a7da5c9b9763c27a^..1f7bd812282cedec8ce3fa448f56373a72f2d261
+      - git cherry-pick f0c4ee55b5c9ecde2b4d483fc68577bf579bd8c7 f0838037c7561bf7bb4cf609126c11634bdd4e68 
+      - git cherry-pick bd216de20f909ce3ceb80183013c7b05ab6f0d6f^..e2c0b630085de67d7c431f7136490fb50e5c9c66 
+      - git cherry-pick efc603fb9f9ea0fed61f9de9506a7042ef554ae5 e650f5aa3ae6bbd2322ae18a1d21663cc4973ccc 0cb312180a56c0abb8dbc2bebd88f2c8978e356e e9344f9506526572e82a017a423557cffb024fd1 c0b5339191ce249a9fcdb08c7d8b92c37fa513cd 4e085fd4b35d52a8edd7243f6cece344d5093e76 d1dc9f5f5a7369a76573bd5977f855851b7ba743 b93f890c3f8e163863459ba31007ad4909f4d10c a3df6cb3c1d7c00468e250b49b1b19e8dfe779c1 f4a86636ae66aae664d232820461a758388b8f58 3977276dc9debc17edb3faaacf5cb99df500a838 18acbf8a9f57930afa92f11aa63f510e59963a03 
+      - git cherry-pick 783432d2c3055537e7e410e498aeedbc918123af^..1780e8592dcea39fea42ea4cb42ead9d0bcf1aa6 
+      - git cherry-pick dd14a3117267d9b51c094f08290445aeb24ab63b 
+      - git cherry-pick 549c5f81a4d607c81b680ab99ffcf1b70ae74f7c^..48ce6cbdeaf47ac0f520fc7f55849ec3966eafad
       - git push origin HEAD:13-wip -f
 
   SF_script:
