@@ -27,9 +27,8 @@ task:
       #- ./repo.sh
       - cd ~/rom
       - git clone https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 -b 13-wip kernel && cd ker*
-      - git fetch origin 13
-      - git revert 163ae4b981b8b77399c3f570791345c70595767d --no-edit
-      - git cherry-pick 350293bbad888f4646236f2307956b2a104fab5e
+      - git fetch https://github.com/derfelot/android_kernel_sony_msm8998 lineage-20
+      - git cherry-pick df18cdbdb6fde8d5aaef2616881379e53f47cf50^..678ed0ee04f85ec28649b94dc7490c00522aa5a4
       - git push origin HEAD:13-wip
 
   SF_script:
