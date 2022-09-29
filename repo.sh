@@ -42,9 +42,9 @@ build () {
     #make SystemUI -j8
     #make bootimage -j8
     #make vendorimage -j8
-    make systemimage -j8
+    #make systemimage -j8
     #make installclean
-    #mka bacon -j8
+    mka bacon -j8
 }
 
 compile () {
