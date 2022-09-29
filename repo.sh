@@ -38,7 +38,7 @@ build () {
      #export USE_GAPPS=true
      #export NAD_BUILD_TYPE=OFFICIAL
      #export USE_PIXEL_CHARGING=true
-     lunch cherish_maple_dsds-user
+     lunch cherish_maple-user
     #make SystemUI -j8
     #make bootimage -j8
     #make vendorimage -j8
