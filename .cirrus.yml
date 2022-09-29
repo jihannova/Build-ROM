@@ -26,11 +26,12 @@ task:
   Build_script:
       #- ./repo.sh
       - cd ~/rom
-      - git clone https://github.com/ariffjenong/android_kernel_sony_msm8998 -b 350293bbad888f4646236f2307956b2a104fab5e kernel && cd ker*
-      - git fetch origin tes
+      - git clone https://github.com/ariffjenong/android_kernel_sony_msm8998 -b tes kernel && cd ker*
+      - git checkout 350293bbad888f4646236f2307956b2a104fab5e
       - git cherry-pick 3329a1ab86ed8b31bd5f18a2b9cc8f2b661844be^..83ce76f3f9df6a5a57f8e43fbacd2dded4d89e59
       - rclone copy znxtproject:NusantaraProject/kernel/msm8998.dtsi arch/arm/dts/boot/qcom -P
       - git add . && git commit -m "revert 47c196a1d193bfa43a8aff3433e4cc80babc318b"
+      - git fetch https://github.com/Dawfuk-Space/kernel_oneplus_sm8250 13 && git cherry-pick b043340c550e540fc3d9d1c222584030e2d0c5a7
       - git push https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 HEAD:13-wip -f
 
   SF_script:
