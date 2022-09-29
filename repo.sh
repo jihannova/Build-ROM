@@ -76,10 +76,10 @@ push_vendor () {
 
 cd ~/rom
 ls -lh
-compile &
+compile #&
 #sleep 55m
-sleep 113m
-kill %1
+#sleep 113m
+#kill %1
 #push_kernel
 #push_device
 #push_yoshino
