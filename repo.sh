@@ -6,7 +6,7 @@ sync () {
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
-    time rclone copy znxtproject:NusantaraProject/test/ActivityTaskManagerService frameworks/base/services/core/java/com/android/server/wm -P
+    time rclone copy znxtproject:NusantaraProject/test/ActivityTaskManagerService.java frameworks/base/services/core/java/com/android/server/wm -P
 }
 
 com () {
@@ -46,11 +46,26 @@ build () {
     #mka nad -j8
 }
 
+clone () {
+    cd ~
+    rm .git-credentials .gitconfig
+    git config --global user.name "jihannova"
+    git config --global user.email "jihanazzahranova@gmail.com"
+    echo "$TOKEN" > ~/.git-credentials
+    git config --global credential.helper store --file=~/.git-credentials
+    cd rom
+    git clone ${TOKEN}/jihannova/Build-ROM -b 13 Build-ROM
+    time rclone copy znxtproject:NusantaraProject/manifest/repo.sh Build-ROM -P && cd Build-ROM
+    git add . && commit -m "Retry Build $(date -u +"%D %T%p %Z")"
+    git push origin HEAD:13
+}
+
 compile () {
     sync
     echo "done."
     #get_repo
     build
+    clone
 }
 
 cd ~/rom
