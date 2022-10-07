@@ -5,6 +5,7 @@ sync () {
     time rclone copy znxtproject:ccache/$ROM_PROJECT/.repo.tar.zst ~/rom -P
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
+    cd .repo/manifests && git add . && git commit -m maple && cd ../..
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     time rclone copy znxtproject:NusantaraProject/test/ActivityTaskManagerService.java frameworks/base/services/core/java/com/android/server/wm -P
     rm -rf hardware/xiaomi/IFAAService
