@@ -42,24 +42,10 @@ build () {
      export USE_PIXEL_CHARGING=true
      lunch nad_maple_dsds-user
     #make bootimage -j8
-    make systemimage -j8
+    #make systemimage -j8
     #make vendorimage -j8
     #make installclean
-    #mka nad -j8
-}
-
-clone () {
-    cd ~
-    rm .git-credentials .gitconfig
-    git config --global user.name "jihannova"
-    git config --global user.email "jihanazzahranova@gmail.com"
-    echo "$TOKEN" > ~/.git-credentials
-    git config --global credential.helper store --file=~/.git-credentials
-    cd rom
-    git clone ${TOKEN}/jihannova/Build-ROM -b 13 Build-ROM
-    time rclone copy znxtproject:NusantaraProject/manifest/repo.sh Build-ROM -P && cd Build-ROM
-    git add . && commit -m "Retry Build $(date -u +"%D %T%p %Z")"
-    git push origin HEAD:13
+    mka nad -j8
 }
 
 compile () {
@@ -67,7 +53,22 @@ compile () {
     echo "done."
     #get_repo
     build
-    clone
+}
+
+# Sorting final zip
+compiled_zip() {
+	ZIP=$(find $(pwd)/out/target/product/maple_dsds/ -maxdepth 1 -name "*maple_dsds*.zip" | perl -e 'print sort { length($b) <=> length($a) } <>' | head -n 1)
+	ZIPNAME=$(basename ${ZIP})
+    DEVICE=$(ls $(pwd)/out/target/product)
+}
+
+upload() {
+	if [ -f $(pwd)/out/target/product/map*/${ZIPNAME} ]; then
+		echo "Successfully Build"
+        time rclone copy $(pwd)/out/target/product/maple_dsds/${ZIPNAME} znxtproject:NusantaraProject/${ROM_PROJECT}/${DEVICE} -P
+	else
+		echo "Build failed"
+	fi
 }
 
 cd ~/rom
@@ -76,10 +77,8 @@ compile #&
 #sleep 55m
 #sleep 113m
 #kill %1
-#push_kernel
-#push_device
-#push_yoshino
-#push_vendor
+compiled_zip
+upload
 
 # Lets see machine specifications and environments
 df -h
