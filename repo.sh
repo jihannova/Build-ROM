@@ -40,7 +40,7 @@ build () {
      export USE_GAPPS=true
      export NAD_BUILD_TYPE=OFFICIAL
      export USE_PIXEL_CHARGING=true
-     lunch nad_maple-user
+     lunch nad_maple_dsds-user
     #make bootimage -j8
     #make systemimage -j8
     #make vendorimage -j8
@@ -74,10 +74,10 @@ upload() {
 		echo "$TOKEN" > ~/.git-credentials
 		git config --global credential.helper store --file=~/.git-credentials
 		git clone ${TOKEN}/jihannova/Build-ROM -b 13 ${DEVICE}
-		time rclone copy znxtproject:NusantaraProject/ci/maple_dsds/repo.sh ${DEVICE} -P
-		time rclone copy znxtproject:NusantaraProject/ci/maple_dsds/.cirrus.yml ${DEVICE} -P
+		time rclone copy znxtproject:NusantaraProject/ci/maple/repo.sh ${DEVICE} -P
+		time rclone copy znxtproject:NusantaraProject/ci/maple/.cirrus.yml ${DEVICE} -P
 		cd ${DEVICE}
-        git add . && git commit -m "done [skip ci]" && git push origin HEAD:13
+        git add . && git commit -m "build maple now" && git push origin HEAD:13
 	else
 		echo "Build failed"
 	fi
