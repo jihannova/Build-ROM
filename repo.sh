@@ -7,6 +7,7 @@ sync () {
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     time rclone copy znxtproject:NusantaraProject/test/ActivityTaskManagerService.java frameworks/base/services/core/java/com/android/server/wm -P
+    rm -rf hardware/xiaomi/IFAAService
 }
 
 com () {
