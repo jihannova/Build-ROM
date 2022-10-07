@@ -7,6 +7,7 @@ sync () {
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     rm device/cherish/sepolicy/common/public/property.te
+    cd vendor/che* && git fetch https://github.com/Nusantara-ROM/android_vendor_nusantara 13 && git cherry-pick 6ec896c099b049fdbc6470ea65ccd53139aea6b5 6cc2f76ee41d3f28ba9d1d2762a0c58e1fa1937c edba71711876dbbf85fcab9e5155fd87a36aeb43 c13a84d3ef7b1aba73fdf0741fbb526fbf25d044
 }
 
 com () {
