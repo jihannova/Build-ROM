@@ -33,17 +33,10 @@ build () {
      export BUILD_HOSTNAME=znxt
      export BUILD_USERNAME=znxt
      export TZ=Asia/Jakarta
-     #export SELINUX_IGNORE_NEVERALLOWS=true
-     #export ALLOW_MISSING_DEPENDENCIES=true
-     #export USE_GAPPS=true
-     #export NAD_BUILD_TYPE=OFFICIAL
-     #export USE_PIXEL_CHARGING=true
-     lunch cherish_maple-user
-    #make SystemUI -j8
+     lunch cherish_maple_dsds-user
     #make bootimage -j8
     #make vendorimage -j8
     #make systemimage -j8
-    #make installclean
     mka bacon -j8
 }
 
@@ -54,24 +47,32 @@ compile () {
     build
 }
 
-push_kernel () {
-  cd ~/rom/kernel/sony/ms*
-  git #push github HEAD:refs/heads/cherish-12
+# Sorting final zip
+compiled_zip() {
+    DEVICE=$(ls $(pwd)/out/target/product)
+	ZIP=$(find $(pwd)/out/target/product/${DEVICE}/ -maxdepth 1 -name "*${DEVICE}*.zip" | perl -e 'print sort { length($b) <=> length($a) } <>' | head -n 1)
+	ZIPNAME=$(basename ${ZIP})
 }
 
-push_device () {
-  cd ~/rom/device/sony/maple_dsds
-  git #push github HEAD:cherish-12 -f
-}
-
-push_yoshino () {
-  cd ~/rom/device/sony/yos*
-  git #push github HEAD:cherish-12 -f
-}
-
-push_vendor () {
-  cd ~/rom/vendor/sony/maple_dsds
-  git #push github HEAD:cherish-12 -f
+upload() {
+	if [ -f $(pwd)/out/target/product/map*/${ZIPNAME} ]; then
+		echo "Successfully Build"
+        time rclone copy $(pwd)/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:CherishOS/${DEVICE} -P
+		echo "Build for maple now"
+		cd ~
+		rm ~/.git-credentials ~/.gitconfig
+		git config --global user.name "jihannova"
+		git config --global user.email "jihanazzahranova@gmail.com"
+		echo "$TOKEN" > ~/.git-credentials
+		git config --global credential.helper store --file=~/.git-credentials
+		git clone ${TOKEN}/jihannova/Build-ROM -b cherish-13 ${DEVICE}
+		time rclone copy znxtproject:CherishOS/ci/maple/repo.sh ${DEVICE} -P
+		time rclone copy znxtproject:CherishOS/ci/maple/.cirrus.yml ${DEVICE} -P
+		cd ${DEVICE}
+        git add . && git commit -m "build for maple now" && git push origin HEAD:cherish-13
+	else
+		echo "Build failed"
+	fi
 }
 
 cd ~/rom
@@ -80,10 +81,6 @@ compile #&
 #sleep 55m
 #sleep 113m
 #kill %1
-#push_kernel
-#push_device
-#push_yoshino
-#push_vendor
 
 # Lets see machine specifications and environments
 df -h

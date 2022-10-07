@@ -34,13 +34,8 @@ task:
   Build_script:
       - ./repo.sh
 
-  UpROM_background_script:
-      - cd ~/rom/out/target/product/maple
-      - ls -lh
-      - time rclone copy $(ls *maple*OFFICIAL*.zip) znxtproject:CherishOS/maple -P
-
   UpSampah_script:
-      #- ./build_zip.sh
+      - ./build_zip.sh
 
   SF_script:
       - cd ~ && rm -rf rom/out/product

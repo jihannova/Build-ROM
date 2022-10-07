@@ -2,7 +2,8 @@
 
 # Sorting final zip
 compiled_zip() {
-	ZIP=$(find $(pwd)/out/target/product/maple_dsds/ -maxdepth 1 -name "*maple_dsds*.zip" | perl -e 'print sort { length($b) <=> length($a) } <>' | head -n 1)
+    DEVICE=$(ls $(pwd)/out/target/product)
+	ZIP=$(find $(pwd)/out/target/product/${DEVICE}/ -maxdepth 1 -name "*${DEVICE}*.zip" | perl -e 'print sort { length($b) <=> length($a) } <>' | head -n 1)
 	ZIPNAME=$(basename ${ZIP})
 }
 
@@ -25,7 +26,7 @@ retry_ccache () {
 
 # Trigger retry only if compilation is not finished
 retry_event() {
-	if [ -f $(pwd)/out/target/product/maple_dsds/${ZIPNAME} ]; then
+	if [ -f $(pwd)/out/target/product/${DEVICE}/${ZIPNAME} ]; then
 		echo "Successful Build"
 	else
 		retry_ccache
