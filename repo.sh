@@ -24,6 +24,15 @@ get_repo () {
   ls -lh
 }
 
+get_out () {
+  cd ~/rom
+  time rm -rf out/tar*/pro*/maple*
+  time com out 1
+  time rclone copy out.tar.zst znxtproject:ccache/$ROM_PROJECT -P
+  time rm out.tar.zst
+  ls -lh
+}
+
 build () {
      cd ~/rom
      . build/envsetup.sh
@@ -42,10 +51,10 @@ build () {
      export USE_PIXEL_CHARGING=true
      lunch nad_maple_dsds-user
     #make bootimage -j8
-    #make systemimage -j8
+    make systemimage -j8
     #make vendorimage -j8
     #make installclean
-    mka nad -j8
+    #mka nad -j8
 }
 
 compile () {
@@ -53,6 +62,7 @@ compile () {
     echo "done."
     #get_repo
     build
+    get_out
 }
 
 # Sorting final zip
@@ -89,8 +99,8 @@ compile #&
 #sleep 55m
 #sleep 113m
 #kill %1
-compiled_zip
-upload
+#compiled_zip
+#upload
 
 # Lets see machine specifications and environments
 df -h
