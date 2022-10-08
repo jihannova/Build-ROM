@@ -83,6 +83,8 @@ compile #&
 #sleep 55m
 #sleep 113m
 #kill %1
+compiled_zip
+upload
 
 # Lets see machine specifications and environments
 df -h
