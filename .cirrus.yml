@@ -26,12 +26,12 @@ task:
   Build_script:
       #- ./repo.sh
       - cd ~/rom
-      - git clone https://github.com/ariffjenong/android_kernel_sony_msm8998 -b tes kernel && cd ker*
-      - git checkout 350293bbad888f4646236f2307956b2a104fab5e
-      - git cherry-pick 3329a1ab86ed8b31bd5f18a2b9cc8f2b661844be^..83ce76f3f9df6a5a57f8e43fbacd2dded4d89e59
-      - rclone copy znxtproject:NusantaraProject/kernel/msm8998.dtsi arch/arm/boot/dts/qcom -P
-      - git add . && git commit -m "revert 47c196a1d193bfa43a8aff3433e4cc80babc318b"
-      - git push https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 HEAD:13-wip -f
+      - git clone https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 kernel && cd ker*
+      - git checkout 63e08244e820e33ef9bb616933661157a0eb45c2
+      - git cherry-pick d29c87e1a7ffbeac1f27b9c263312713c1ba92b8
+      - git branch -D 13 && git switch -c 13
+      - git checkout origin/12.1 && git merge 13 --no-edit
+      - git push origin HEAD:12.1
 
   SF_script:
       - cd ~ && rm -rf rom
