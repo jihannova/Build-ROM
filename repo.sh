@@ -26,7 +26,6 @@ get_repo () {
 
 get_out () {
   cd ~/rom
-  time rm -rf out/tar*/pro*/maple*
   time com out 1
   time rclone copy out.tar.zst znxtproject:ccache/$ROM_PROJECT -P
   time rm out.tar.zst
@@ -51,9 +50,9 @@ build () {
      export USE_PIXEL_CHARGING=true
      lunch nad_maple_dsds-user
     #make bootimage -j8
-    make systemimage -j8
+    make systemimage vendorimage -j8
     #make vendorimage -j8
-    #make installclean
+    make installclean
     #mka nad -j8
 }
 
