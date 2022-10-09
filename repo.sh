@@ -10,7 +10,6 @@ sync () {
     time rm -rf out.tar.zst
     cd .repo/manifests && git add . && git commit -m maple && cd ../..
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync
-    time rclone copy znxtproject:NusantaraProject/test/ActivityTaskManagerService.java frameworks/base/services/core/java/com/android/server/wm -P
     rm -rf hardware/xiaomi/IFAAService
 }
 
@@ -35,13 +34,12 @@ build () {
      export USE_CCACHE=1
      ccache -M 50G
      ccache -z
-     export BUILD_HOSTNAME=znxt
+     export BUILD_HOSTNAME=NusantaraProject
      export BUILD_USERNAME=znxt
      export TZ=Asia/Jakarta
      #export SELINUX_IGNORE_NEVERALLOWS=true
      #export ALLOW_MISSING_DEPENDENCIES=true
      export USE_GAPPS=true
-     export NAD_BUILD_TYPE=OFFICIAL
      export USE_PIXEL_CHARGING=true
      lunch nad_maple_dsds-user
     #make bootimage -j8
@@ -77,8 +75,8 @@ upload() {
 		echo "$TOKEN" > ~/.git-credentials
 		git config --global credential.helper store --file=~/.git-credentials
 		git clone ${TOKEN}/jihannova/Build-ROM -b 12.1 ${DEVICE}
-		time rclone copy znxtproject:NusantaraProject/ci/maple/repo.sh ${DEVICE} -P
-		time rclone copy znxtproject:NusantaraProject/ci/maple/.cirrus.yml ${DEVICE} -P
+		time rclone copy znxtproject:NusantaraProject/ci/12.1/maple/repo.sh ${DEVICE} -P
+		time rclone copy znxtproject:NusantaraProject/ci/12.1/maple/.cirrus.yml ${DEVICE} -P
 		cd ${DEVICE}
         git add . && git commit -m "build maple now" && git push origin HEAD:12.1
 	else
