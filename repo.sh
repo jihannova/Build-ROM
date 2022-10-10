@@ -56,10 +56,30 @@ compiled_zip() {
 	ZIPNAME=$(basename ${ZIP})
 }
 
+SF () {
+    cd ~/rom/out/target/product/${DEVICE}
+    project=xperia-xz-premium/CherishOS/${DEVICE}
+
+    # Upload
+    expect -c "
+    spawn sftp $SF_USERNAME@frs.sourceforge.net:/home/pfs/project/$project
+    expect \"yes/no\"
+    send \"yes\r\"
+    expect \"Password\"
+    send \"$SF_PASS\r\"
+    set timeout -1
+    send \"put ${ZIPNAME}\r\"
+    expect \"Uploading\"
+    expect \"100%\"
+    expect \"sftp>\"
+    send \"bye\r\"
+    interact"
+}
+
 upload() {
-	if [ -f $(pwd)/out/target/product/map*/${ZIPNAME} ]; then
+	if [ -f $(pwd)/out/target/product/${DEVICE}/${ZIPNAME} ]; then
 		echo "Successfully Build"
-        time rclone copy $(pwd)/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:CherishOS/${DEVICE} -P
+        SF
 		echo "Done"
 		cd ~
 		rm ~/.git-credentials ~/.gitconfig
