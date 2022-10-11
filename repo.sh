@@ -36,6 +36,7 @@ build () {
      export TZ=Asia/Jakarta
      #export SELINUX_IGNORE_NEVERALLOWS=true
      #export ALLOW_MISSING_DEPENDENCIES=true
+     export NAD_BUILD_TYPE=OFFICIAL
      export USE_GAPPS=true
      export USE_PIXEL_CHARGING=true
      lunch nad_maple_dsds-user
