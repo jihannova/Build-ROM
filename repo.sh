@@ -39,7 +39,7 @@ build () {
      export NAD_BUILD_TYPE=OFFICIAL
      export USE_GAPPS=true
      export USE_PIXEL_CHARGING=true
-     lunch nad_maple_dsds-user
+     lunch nad_maple-user
     #make bootimage -j8
     #make systemimage -j8
     #make vendorimage -j8
@@ -65,7 +65,7 @@ upload() {
 	if [ -f $(pwd)/out/target/product/map*/${ZIPNAME} ]; then
 		echo "Successfully Build"
         time rclone copy $(pwd)/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:NusantaraProject/${DEVICE} -P
-		echo "Build for maple now"
+		echo "Done."
 		cd ~
 		rm ~/.git-credentials ~/.gitconfig
 		git config --global user.name "jihannova"
@@ -73,10 +73,10 @@ upload() {
 		echo "$TOKEN" > ~/.git-credentials
 		git config --global credential.helper store --file=~/.git-credentials
 		git clone ${TOKEN}/jihannova/Build-ROM -b 12.1 ${DEVICE}
-		time rclone copy znxtproject:NusantaraProject/ci/12.1/maple/repo.sh ${DEVICE} -P
-		time rclone copy znxtproject:NusantaraProject/ci/12.1/maple/.cirrus.yml ${DEVICE} -P
+		time rclone copy znxtproject:NusantaraProject/ci/12.1/maple_dsds/repo.sh ${DEVICE} -P
+		time rclone copy znxtproject:NusantaraProject/ci/12.1/maple_dsds/.cirrus.yml ${DEVICE} -P
 		cd ${DEVICE}
-        git add . && git commit -m "build maple now" && git push origin HEAD:12.1
+        git add . && git commit -m "build done and successfully [skip ci]" && git push origin HEAD:12.1
 	else
 		echo "Build failed"
 	fi
