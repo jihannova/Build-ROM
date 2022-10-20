@@ -6,15 +6,18 @@ sync () {
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
-    #rclone copy znxtproject:NusantaraProject/test/device_framework_manifest.xml device/sony/yoshino-common -P
-    #rclone copy znxtproject:NusantaraProject/test/device_framework_manifest_dsds.xml device/sony/yoshino-common -P
-    rclone copy znxtproject:NusantaraProject/test/ActivityTaskManagerService.java frameworks/base/services/core/java/com/android/server/wm -P
-    rclone copy znxtproject:NusantaraProject/test/ThemeOverlayApplier.java frameworks/base/packages/SystemUI/src/com/android/systemui/theme -P
-    rclone copy znxtproject:NusantaraProject/test/ThemeOverlayController.java frameworks/base/packages/SystemUI/src/com/android/systemui/theme -P
-    rclone copy packages/apps/NusantaraWings/src/com/nusantara/wings/fragments/system/Themes.java znxtproject:NusantaraProject/NusantaraWings -P
-    rclone copy znxtproject:NusantaraProject/test/Themes.java packages/apps/NusantaraWings/src/com/nusantara/wings/fragments/system -P
+    cd fr*/b* && git fetch nad 13-arif && git checkout FETCH_HEAD
+    cd ~/rom/pack*/apps/Settings && git fetch nad 13-arif && git checkout FETCH_HEAD
+    cd ~/rom/pack*/apps/*Wings && git fetch nad 13-arif && git checkout FETCH_HEAD
+    cd ~/rom
+    rclone copy znxtproject:NusantaraProject/test/SystemUI/FooterActionsController.kt frameworks/base/packages/SystemUI/src/com/android/systemui/qs -P
+    rclone copy znxtproject:NusantaraProject/test/SystemUI/QSFooterView.java frameworks/base/packages/SystemUI/src/com/android/systemui/qs -P
+    rclone copy znxtproject:NusantaraProject/test/SystemUI/QSFooterViewController.java frameworks/base/packages/SystemUI/src/com/android/systemui/qs -P
+    rclone copy znxtproject:NusantaraProject/test/SystemUI/FooterActionsView.kt frameworks/base/packages/SystemUI/src/com/android/systemui/qs -P
+    rclone copy znxtproject:NusantaraProject/test/SystemUI/qs_footer_impl.xml frameworks/base/packages/SystemUI/res/layout -P
+    rclone copy znxtproject:NusantaraProject/test/SystemUI/footer_actions.xml frameworks/base/packages/SystemUI/res-keyguard/layout -P
     #cd ker*/so*/ms* && git fetch device 13-wip && git checkout FETCH_HEAD
-    cd ~/rom && rm -rf hardware/xiaomi && cd packages/apps/NusantaraSystemUI && rclone copy znxtproject:NusantaraProject/test/NusantaraThemeOverlayController.kt src/com/nusantara/systemui/theme -P && git add . && git commit -m 'fix build error' && cd ~/rom
+    rm -rf hardware/xiaomi/IF*
 }
 
 com () {
@@ -38,7 +41,7 @@ build () {
      export USE_CCACHE=1
      ccache -M 50G
      ccache -z
-     export BUILD_HOSTNAME=znxt
+     export BUILD_HOSTNAME=NusantaraProject
      export BUILD_USERNAME=znxt
      export TZ=Asia/Jakarta
      #export SELINUX_IGNORE_NEVERALLOWS=true
@@ -47,8 +50,8 @@ build () {
      export NAD_BUILD_TYPE=OFFICIAL
      export USE_PIXEL_CHARGING=true
      lunch nad_maple_dsds-user
-    #make SystemUI -j8
-    make Settings -j8
+    make SystemUI -j8
+    #make Settings -j8
     #make systemimage -j8
     #make vendorimage -j8
     #make installclean
@@ -62,9 +65,9 @@ compile () {
     build
 }
 
-push_kernel () {
-  cd ~/rom/kernel/sony/ms*
-  git #push github HEAD:refs/heads/cherish-12
+push_ui () {
+  cd ~/rom/out/target/product/map*/system/sys*ext/priv*/SystemUI
+  rclone copy S* znxtproject:NusantaraProject/test -P
 }
 
 push_device () {
@@ -88,7 +91,7 @@ compile #&
 #sleep 55m
 #sleep 113m
 #kill %1
-#push_kernel
+#push_ui
 #push_device
 #push_yoshino
 #push_vendor
