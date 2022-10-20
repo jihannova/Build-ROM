@@ -28,9 +28,6 @@ task:
       - time rclone copy znxtproject:ccache/$ROM_PROJECT/ccache.tar.zst ~ -P
       - ./setup.sh
 
-  Retry_background_script:
-      - ./retry.sh
-
   Build_script:
       - ./repo.sh
 
@@ -40,9 +37,6 @@ task:
       #- time rclone copy $(ls *maple*OFFICIAL*.zip) znxtproject:NusantaraProject/$ROM_PROJECT/maple_dsds -P
       - cd ~/rom/out/target/product/maple_dsds/system/sys*ext/priv*/SystemUI && time rclone copy S* znxtproject:NusantaraProject/test -P
 
-  UpSampah_script:
-      #- ./build_zip.sh
-
   SF_script:
-      - cd ~ && rm -rf rom/out/product
-      #- ./sf.sh
+      - cd ~ && rm -rf rom/out/target/product
+
