@@ -7,16 +7,8 @@ sync () {
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     cd fr*/b* && git fetch nad 13-arif && git checkout FETCH_HEAD
-    cd ~/rom/pack*/apps/Settings && git fetch nad 13-arif && git checkout FETCH_HEAD
-    cd ~/rom/pack*/apps/*Wings && git fetch nad 13-arif && git checkout FETCH_HEAD
+    rclone copy znxtproject:NusantaraProject/test/QSSecurityFooter.java packages/SystemUI/src/com/android/systemui/qs -P
     cd ~/rom
-    rclone copy znxtproject:NusantaraProject/test/SystemUI/FooterActionsController.kt frameworks/base/packages/SystemUI/src/com/android/systemui/qs -P
-    rclone copy znxtproject:NusantaraProject/test/SystemUI/QSFooterView.java frameworks/base/packages/SystemUI/src/com/android/systemui/qs -P
-    rclone copy znxtproject:NusantaraProject/test/SystemUI/QSFooterViewController.java frameworks/base/packages/SystemUI/src/com/android/systemui/qs -P
-    rclone copy znxtproject:NusantaraProject/test/SystemUI/FooterActionsView.kt frameworks/base/packages/SystemUI/src/com/android/systemui/qs -P
-    rclone copy znxtproject:NusantaraProject/test/SystemUI/qs_footer_impl.xml frameworks/base/packages/SystemUI/res/layout -P
-    rclone copy znxtproject:NusantaraProject/test/SystemUI/footer_actions.xml frameworks/base/packages/SystemUI/res-keyguard/layout -P
-    #cd ker*/so*/ms* && git fetch device 13-wip && git checkout FETCH_HEAD
     rm -rf hardware/xiaomi/IF*
 }
 
