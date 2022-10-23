@@ -5,7 +5,7 @@ sync () {
     time rclone copy znxtproject:ccache/$ROM_PROJECT/.repo.tar.zst ~/rom -P
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
-    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8 frameworks/base
     cd fr*/b* && git fetch nad 13-arif && git checkout FETCH_HEAD
     rclone copy znxtproject:NusantaraProject/test/FooterActionsController.kt packages/SystemUI/src/com/android/systemui/qs -P
     git add . && git commit --amend --no-edit
