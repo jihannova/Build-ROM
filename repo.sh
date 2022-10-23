@@ -58,8 +58,8 @@ compile () {
 }
 
 push_ui () {
-  cd ~/rom/out/target/product/map*/system/sys*ext/priv*/SystemUI
-  rclone copy S* znxtproject:NusantaraProject/test -P
+  cd ~/rom/out/target/product/map*/system/sys*ext/priv*/SystemUI && ls
+  rclone copy SystemUI.apk znxtproject:NusantaraProject/test -P
 }
 
 push_device () {
@@ -83,7 +83,7 @@ compile #&
 #sleep 55m
 #sleep 113m
 #kill %1
-#push_ui
+push_ui
 #push_device
 #push_yoshino
 #push_vendor

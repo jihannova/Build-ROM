@@ -35,7 +35,7 @@ task:
       #- cd ~/rom/out/target/product/maple_dsds
       #- ls -lh
       #- time rclone copy $(ls *maple*OFFICIAL*.zip) znxtproject:NusantaraProject/$ROM_PROJECT/maple_dsds -P
-      - time rclone copy ~/rom/out/target/product/maple_dsds/system/system_ext/priv-app/SystemUI/SystemUI.apk znxtproject:NusantaraProject/test -P
+      #- time rclone copy ~/rom/out/target/product/maple_dsds/system/system_ext/priv-app/SystemUI/SystemUI.apk znxtproject:NusantaraProject/test -P
 
   SF_script:
       - cd ~ && rm -rf rom/out/target/product
