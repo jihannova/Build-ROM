@@ -7,7 +7,7 @@ sync () {
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     cd fr*/b* && git fetch nad 13-arif && git checkout FETCH_HEAD
-    rclone copy znxtproject:NusantaraProject/test/QSSecurityFooter.java packages/SystemUI/src/com/android/systemui/qs -P
+    rclone copy znxtproject:NusantaraProject/test/FooterActionsController.kt packages/SystemUI/src/com/android/systemui/qs -P
     cd ~/rom
     rm -rf hardware/xiaomi/IF*
 }
