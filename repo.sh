@@ -5,11 +5,11 @@ sync () {
     time rclone copy znxtproject:ccache/$ROM_PROJECT/.repo.tar.zst ~/rom -P
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
-    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8 frameworks/base
+    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     cd fr*/b* && git fetch nad 13-arif && git checkout FETCH_HEAD
-    rclone copy znxtproject:NusantaraProject/test/FooterActionsController.kt packages/SystemUI/src/com/android/systemui/qs -P
-    git add . && git commit --amend --no-edit
-    git push nad HEAD:13-arif -f
+    rclone copy znxtproject:NusantaraProject/test/DynamicUtils.java packages/SystemUI/src/com/android/systemui/nad -P
+    #git add . && git commit --amend --no-edit
+    #git push nad HEAD:13-arif -f
     cd ~/rom
     rm -rf hardware/xiaomi/IF*
 }
@@ -56,7 +56,7 @@ compile () {
     sync
     echo "done."
     #get_repo
-    #build
+    build
 }
 
 push_ui () {
@@ -85,7 +85,7 @@ compile #&
 #sleep 55m
 #sleep 113m
 #kill %1
-#push_ui
+push_ui
 #push_device
 #push_yoshino
 #push_vendor
