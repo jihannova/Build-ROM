@@ -13,6 +13,8 @@ sync () {
     rclone copy znxtproject:NusantaraProject/test/BrightnessSliderView.java packages/SystemUI/src/com/android/systemui/settings/brightness -P
     rclone copy znxtproject:NusantaraProject/test/QuickStatusBarHeader.java packages/SystemUI/src/com/android/systemui/qs -P
     git add . && git commit -m 'SystemUI: Simplify  code' -m 'use single method to update' -m 'Signed-off-by: ariffjenong <arifbuditantodablekk@gmail.com>'
+    rclone copy znxtproject:NusantaraProject/test/BlurView.java packages/SettingsLib/Collap*/src/com/nusantara/support -P
+    git add . && git commit -m 'SystemUI: Simplify  code' -m 'use single method to update' -m 'Signed-off-by: ariffjenong <arifbuditantodablekk@gmail.com>'
     #git add . && git commit --amend --no-edit
     #git push nad HEAD:13-arif -f
     cd ~/rom
