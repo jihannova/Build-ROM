@@ -35,7 +35,7 @@ build () {
      export BUILD_HOSTNAME=znxt
      export BUILD_USERNAME=znxt
      export TZ=Asia/Jakarta
-     lunch cherish_maple-user
+     lunch cherish_maple_dsds-user
     #make bootimage -j8
     #make vendorimage -j8
     #make systemimage -j8
@@ -68,6 +68,7 @@ SF () {
     expect \"Password\"
     send \"$SF_PASS\r\"
     set timeout -1
+    expect \"sftp>\"
     send \"put ${ZIPNAME}\r\"
     expect \"Uploading\"
     expect \"100%\"
@@ -80,7 +81,7 @@ upload() {
 	if [ -f $(pwd)/out/target/product/${DEVICE}/${ZIPNAME} ]; then
 		echo "Successfully Build"
         SF
-		echo "Done"
+		echo "Build for maple now"
 		cd ~
 		rm ~/.git-credentials ~/.gitconfig
 		git config --global user.name "jihannova"
@@ -88,10 +89,10 @@ upload() {
 		echo "$TOKEN" > ~/.git-credentials
 		git config --global credential.helper store --file=~/.git-credentials
 		git clone ${TOKEN}/jihannova/Build-ROM -b cherish-13 ${DEVICE}
-		time rclone copy znxtproject:CherishOS/ci/maple_dsds/repo.sh ${DEVICE} -P
-		time rclone copy znxtproject:CherishOS/ci/maple_dsds/.cirrus.yml ${DEVICE} -P
+		time rclone copy znxtproject:CherishOS/ci/maple/repo.sh ${DEVICE} -P
+		time rclone copy znxtproject:CherishOS/ci/maple/.cirrus.yml ${DEVICE} -P
 		cd ${DEVICE}
-        git add . && git commit -m "Done [skip ci]" && git push origin HEAD:cherish-13
+        git add . && git commit -m "build for maple now" && git push origin HEAD:cherish-13
 	else
 		echo "Build failed"
 	fi

@@ -34,8 +34,8 @@ task:
   Build_script:
       - ./repo.sh
 
-  #UpSampah_script:
-      #- ./build_zip.sh
+  UpSampah_script:
+      - ./build_zip.sh
 
   SF_script:
       - cd ~ && rm -rf rom/out/target/product
