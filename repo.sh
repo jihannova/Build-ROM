@@ -7,7 +7,9 @@ sync () {
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     rm device/cherish/sepolicy/common/public/property.te
-    cd vendor/che* && rclone copy znxtproject:CherishOS/ci/BoardConfigKernel.mk config -P
+    cd fr*/b*
+    rclone copy znxtproject:CherishOS/frameworks/ActivityTaskManagerService.java services/core/java/com/android/server/wm -P
+    cd ~/rom/vendor/che* && rclone copy znxtproject:CherishOS/ci/BoardConfigKernel.mk config -P
     rclone copy znxtproject:CherishOS/ci/BoardConfigKernel.mk build/tasks -P
 }
 
@@ -58,7 +60,7 @@ compiled_zip() {
 
 SF () {
     cd ~/rom/out/target/product/${DEVICE}
-    project=xperia-xz-premium/CherishOS/${DEVICE}
+    project=xperia-xz-premium/CherishOS/tiramisu/${DEVICE}
 
     # Upload
     expect -c "
