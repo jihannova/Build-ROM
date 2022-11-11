@@ -5,14 +5,11 @@ sync () {
     time rclone copy znxtproject:ccache/$ROM_PROJECT/.repo.tar.zst ~/rom -P
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
-    cd .repo/manifests && git pull origin tiramisu && git revert --no-edit db01f3519c8746a03c5212c8749a5a5f159a67fd 8657b1862b4d9841c4d2c3706717f2a56655e186 0b83ff471da8e6fbc293b1cd8a748ae07e7caf90 && cd ~/rom
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     rm device/cherish/sepolicy/common/public/property.te
     cd fr*/b*
     rclone copy znxtproject:CherishOS/frameworks/ActivityTaskManagerService.java services/core/java/com/android/server/wm -P
     cd ~/rom/vendor/che*
-    git reset --hard 4e9f60ad89b15b2c6b9404078e0083347c5a9f7a && rclone copy znxtproject:CherishOS/ci/BoardConfigKernel.mk config -P
-    rclone copy znxtproject:CherishOS/ci/BoardConfigKernel.mk build/tasks -P
 }
 
 com () {
@@ -39,11 +36,10 @@ build () {
      export BUILD_HOSTNAME=znxt
      export BUILD_USERNAME=znxt
      export TZ=Asia/Jakarta
-     lunch cherish_maple_dsds-user
-    #make bootimage -j8
-    #make vendorimage -j8
-    make systemimage -j8
-    #mka bacon -j8
+     lunch cherish_maple-user
+     #make bootimage vendorimage
+     make systemimage -j8
+     #mka bacon -j8
 }
 
 compile () {
@@ -88,8 +84,8 @@ retry_cacche () {
 	hit_rate=$(ccache -s | awk '/hit rate/ {print $4}' | cut -d'.' -f1)
 	if [ $hit_rate -lt 99 ]; then
 	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache ${DEVICE}
-		time rclone copy znxtproject:CherishOS/ci/cchace3/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
-	    git add . && git commit -m "Retry Ccache $(date -u +"%D %T%p %Z")"
+		time rclone copy znxtproject:CherishOS/ci/cchace2/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
+	    git add . && git commit -m "Retry Cache $(date -u +"%D %T%p %Z")"
 	    git push origin HEAD:ccache
 	else
 	    echo "Ccache is fully configured"
@@ -112,10 +108,11 @@ upload() {
         SF
 		echo "Build for maple now"
 		git clone ${TOKEN}/jihannova/Build-ROM -b ccache ${DEVICE}
-		time rclone copy znxtproject:CherishOS/ci/maple/repo.sh ${DEVICE} -P
-		time rclone copy znxtproject:CherishOS/ci/maple/.cirrus.yml ${DEVICE} -P
-		cd ${DEVICE}
-        git add . && git commit -m "build for maple now" && git push origin HEAD:ccache
+		time rclone copy znxtproject:CherishOS/ci/cchace1/maple_dsds/.cirrus.yml ${DEVICE} -P
+		time rclone copy znxtproject:CherishOS/ci/cchace1/maple_dsds/build_zip.sh ${DEVICE} -P
+		time rclone copy znxtproject:CherishOS/ci/cchace1/maple_dsds/repo.sh ${DEVICE} -P && cd ${DEVICE}
+	    git add . && git commit -m "Successfully Build $(date -u +"%D %T%p %Z") [skip ci]"
+	    git push origin HEAD:ccache
 	else
 		echo "Build failed"
 		retry_cacche
@@ -126,7 +123,7 @@ cd ~/rom
 ls -lh
 compile &
 #sleep 55m
-sleep 90m
+sleep 60m
 kill %1
 compiled_zip
 upload
