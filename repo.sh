@@ -88,7 +88,7 @@ retry_cacche () {
 	hit_rate=$(ccache -s | awk '/hit rate/ {print $4}' | cut -d'.' -f1)
 	if [ $hit_rate -lt 99 ]; then
 	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache ${DEVICE}
-		time rclone copy znxtproject:CherishOS/ci/cchace2/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
+		time rclone copy znxtproject:CherishOS/ci/cchace3/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
 	    git add . && git commit -m "Retry Ccache $(date -u +"%D %T%p %Z")"
 	    git push origin HEAD:ccache
 	else
@@ -126,7 +126,7 @@ cd ~/rom
 ls -lh
 compile &
 #sleep 55m
-sleep 60m
+sleep 90m
 kill %1
 compiled_zip
 upload
