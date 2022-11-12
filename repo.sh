@@ -37,7 +37,7 @@ build () {
      export BUILD_USERNAME=znxt
      export TZ=Asia/Jakarta
      lunch cherish_maple-user
-     make bootimage vendorimage systemimage bacon -j8
+     make bootimage vendorimage systemimage
 }
 
 compile () {
