@@ -25,7 +25,7 @@ task:
 
   ccc_background_script:
       - sleep 150
-      - time rclone copy znxtproject:ccache/$ROM_PROJECT/ccache.tar.zst ~ -P
+      - time rclone copy znxtproject:ccache/${ROM_PROJECT}/ccache.tar.zst ~ -P
       - ./setup.sh
 
   Retry_background_script:

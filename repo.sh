@@ -9,8 +9,6 @@ sync () {
     rm device/cherish/sepolicy/common/public/property.te
     cd fr*/b*
     rclone copy znxtproject:CherishOS/frameworks/ActivityTaskManagerService.java services/core/java/com/android/server/wm -P
-    cd ~/rom/vendor/che* && rclone copy znxtproject:CherishOS/ci/BoardConfigKernel.mk config -P
-    rclone copy znxtproject:CherishOS/ci/BoardConfigKernel.mk build/tasks -P
 }
 
 com () {
@@ -79,24 +77,44 @@ SF () {
     interact"
 }
 
+# Retry the ccache fill for 99-100% hit rate
+retry_cacche () {
+	export CCACHE_DIR=~/ccache
+	export CCACHE_EXEC=$(which ccache)
+	hit_rate=$(ccache -s | awk '/hit rate/ {print $4}' | cut -d'.' -f1)
+	if [ $hit_rate -lt 99 ]; then
+	    git clone ${TOKEN}/jihannova/Build-ROM -b cherish-13 ${DEVICE} && cd ${DEVICE}
+	    git commit --allow-empty -m "Retry Cacche $(date -u +"%D %T%p %Z")"
+	    git push -q
+	else
+	    echo "Ccache is fully configured"
+	    git clone ${TOKEN}/jihannova/Build-ROM -b cherish-13 ${DEVICE}
+		time rclone copy znxtproject:CherishOS/ci/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
+	    git add . && git commit -m "Build $(date -u +"%D %T%p %Z")"
+	    git push origin HEAD:cherish-13
+	fi
+}
+
 upload() {
+	cd ~
+	rm ~/.git-credentials ~/.gitconfig
+	git config --global user.name "jihannova"
+	git config --global user.email "jihanazzahranova@gmail.com"
+	echo "$TOKEN" > ~/.git-credentials
+	git config --global credential.helper store --file=~/.git-credentials
 	if [ -f $(pwd)/out/target/product/${DEVICE}/${ZIPNAME} ]; then
 		echo "Successfully Build"
         SF
 		echo "Build for maple now"
-		cd ~
-		rm ~/.git-credentials ~/.gitconfig
-		git config --global user.name "jihannova"
-		git config --global user.email "jihanazzahranova@gmail.com"
-		echo "$TOKEN" > ~/.git-credentials
-		git config --global credential.helper store --file=~/.git-credentials
 		git clone ${TOKEN}/jihannova/Build-ROM -b cherish-13 ${DEVICE}
+		time rclone copy znxtproject:CherishOS/ci/maple/build_zip.sh ${DEVICE} -P
 		time rclone copy znxtproject:CherishOS/ci/maple/repo.sh ${DEVICE} -P
 		time rclone copy znxtproject:CherishOS/ci/maple/.cirrus.yml ${DEVICE} -P
 		cd ${DEVICE}
         git add . && git commit -m "build for maple now" && git push origin HEAD:cherish-13
 	else
 		echo "Build failed"
+		retry_cacche
 	fi
 }
 
