@@ -7,18 +7,7 @@ sync () {
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     cd fr*/b* && git fetch nad 13-arif && git checkout FETCH_HEAD
-    rclone copy znxtproject:NusantaraProject/test/DynamicUtils.java packages/SystemUI/src/com/android/systemui/nad -P
-    rclone copy znxtproject:NusantaraProject/test/DisplayUtils.java packages/SystemUI/src/com/android/systemui/nad -P
-    git add . && git commit -m 'SystemUI: Improve DynamicUtils and DisplayUtils' -m 'reduce overhead and reduce battery consumption' -m 'Signed-off-by: ariffjenong <arifbuditantodablekk@gmail.com>'
-    rclone copy znxtproject:NusantaraProject/test/BrightnessSliderView.java packages/SystemUI/src/com/android/systemui/settings/brightness -P
-    rclone copy znxtproject:NusantaraProject/test/QuickStatusBarHeader.java packages/SystemUI/src/com/android/systemui/qs -P
-    git add . && git commit -m 'SystemUI: Simplify  code' -m 'use single method to update' -m 'Signed-off-by: ariffjenong <arifbuditantodablekk@gmail.com>'
-    rclone copy znxtproject:NusantaraProject/test/BlurView.java packages/SettingsLib/Collap*/src/com/nusantara/support -P
-    git add . && git commit -m 'SystemUI: Simplify  code' -m 'use single method to update' -m 'Signed-off-by: ariffjenong <arifbuditantodablekk@gmail.com>'
-    #git add . && git commit --amend --no-edit
-    #git push nad HEAD:13-arif -f
     cd ~/rom
-    rm -rf hardware/xiaomi/IF*
 }
 
 com () {
