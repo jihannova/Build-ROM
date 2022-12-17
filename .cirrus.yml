@@ -26,10 +26,10 @@ task:
   Build_script:
       #- ./repo.sh
       - cd ~/rom
-      - git clone https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 kernel && cd ker*
-      - git fetch https://github.com/LineageOS/android_kernel_essential_msm8998 lineage-20
-      - git cherry-pick 917e03da66f6abf0fcfdea436941f3c931626168
+      - git clone https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 -b 13 kernel && cd ker*
+      - git fetch https://github.com/ariffjenong/android_kernel_sony_msm8998 test
+      - git cherry-pick b5dc7981cc4e12e6ddde09dd63eccd8e27ab3e6d^..d35329f0703443a60f2abc1f6ad7dc43f42c7d47
       - git push origin HEAD:13
 
   SF_script:
-      - cd ~ && rm -rf rom
+      - rm -rf ~/rom
