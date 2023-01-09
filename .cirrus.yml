@@ -27,17 +27,13 @@ task:
       #- ./repo.sh
       - cd ~/rom
       - git clone https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 -b 13 kernel && cd ker*
-      - git fetch https://github.com/derfelot/android_kernel_sony_msm8998 lineage-20
-      - git cherry-pick 26d840f^..fefd471
-      - git push origin HEAD:13 && cd ..
-      - git clone https://github.com/NusantaraROM-Devices/android_vendor_sony_maple -b 13 maple && cd maple
-      - git fetch https://github.com/derfelot/android_vendor_sony_maple lineage-20
-      - git cherry-pick fe1643f
-      - git push origin HEAD:13 && cd ..
-      - git clone https://github.com/NusantaraROM-Devices/android_vendor_sony_maple_dsds -b 13 dsds && cd dsds
-      - git fetch https://github.com/derfelot/android_vendor_sony_maple_dsds lineage-20
-      - git cherry-pick 0f1f8b8
-      - git push origin HEAD:13 && cd ..
+      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-lilac_defconfig arch/arm64/configs -P
+      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-maple_defconfig arch/arm64/configs -P
+      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-maple_dsds_defconfig arch/arm64/configs -P
+      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-poplar_defconfig arch/arm64/configs -P
+      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-poplar_dsds_defconfig arch/arm64/configs -P
+      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-poplar_kddi_defconfig arch/arm64/configs -P
+      - git add . && git commit --amend --no-edit && git push origin HEAD:13 -f
 
   SF_script:
       - rm -rf ~/rom
