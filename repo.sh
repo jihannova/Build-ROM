@@ -96,7 +96,6 @@ retry_cacche () {
 }
 
 upload() {
-	cd ~
 	rm ~/.git-credentials ~/.gitconfig
 	git config --global user.name "jihannova"
 	git config --global user.email "jihanazzahranova@gmail.com"
