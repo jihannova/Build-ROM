@@ -102,7 +102,7 @@ upload() {
 	git config --global user.email "jihanazzahranova@gmail.com"
 	echo "$TOKEN" > ~/.git-credentials
 	git config --global credential.helper store --file=~/.git-credentials
-	if [ -f $(pwd)/out/target/product/${DEVICE}/${ZIPNAME} ]; then
+	if [ -f ~/rom/out/target/product/${DEVICE}/${ZIPNAME} ]; then
 		echo "Successfully Build"
         SF
 		echo "Build for maple now"
