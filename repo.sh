@@ -35,7 +35,7 @@ build () {
      export BUILD_HOSTNAME=znxt
      export BUILD_USERNAME=znxt
      export TZ=Asia/Jakarta
-     lunch cherish_maple_dsds-user
+     lunch cherish_maple-user
     #make bootimage -j8
     #make vendorimage -j8
     #make systemimage -j8
@@ -102,16 +102,16 @@ upload() {
 	git config --global user.email "jihanazzahranova@gmail.com"
 	echo "$TOKEN" > ~/.git-credentials
 	git config --global credential.helper store --file=~/.git-credentials
-	if [ -f ~/rom/out/target/product/${DEVICE}/${ZIPNAME} ]; then
+	if [ -f $(pwd)/out/target/product/${DEVICE}/${ZIPNAME} ]; then
 		echo "Successfully Build"
         SF
-		echo "Build for maple now"
+		echo "Done"
 		git clone ${TOKEN}/jihannova/Build-ROM -b cherish-13 ${DEVICE}
-		time rclone copy znxtproject:CherishOS/ci/maple/build_zip.sh ${DEVICE} -P
-		time rclone copy znxtproject:CherishOS/ci/maple/repo.sh ${DEVICE} -P
-		time rclone copy znxtproject:CherishOS/ci/maple/.cirrus.yml ${DEVICE} -P
+		time rclone copy znxtproject:CherishOS/ci/maple_dsds/build_zip.sh ${DEVICE} -P
+		time rclone copy znxtproject:CherishOS/ci/maple_dsds/repo.sh ${DEVICE} -P
+		time rclone copy znxtproject:CherishOS/ci/maple_dsds/.cirrus.yml ${DEVICE} -P
 		cd ${DEVICE}
-        git add . && git commit -m "build for maple now" && git push origin HEAD:cherish-13
+        git add . && git commit -m "Done [skip ci]" && git push origin HEAD:cherish-13
 	else
 		echo "Build failed"
 		retry_cacche
