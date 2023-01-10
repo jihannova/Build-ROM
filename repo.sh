@@ -35,11 +35,21 @@ build () {
      export BUILD_HOSTNAME=znxt
      export BUILD_USERNAME=znxt
      export TZ=Asia/Jakarta
-     lunch cherish_maple-user
+     lunch cherish_maple_dsds-user
     #make bootimage -j8
     #make vendorimage -j8
     #make systemimage -j8
     mka bacon -j8
+}
+
+build_maple () {
+     cd ~/rom
+     lunch cherish_maple-user
+    #make bootimage -j8
+    #make vendorimage -j8
+    #make systemimage -j8
+    mka bacon
+    upload_maple
 }
 
 compile () {
@@ -77,6 +87,29 @@ SF () {
     interact"
 }
 
+SF_maple () {
+	ROM=$(find ~/rom/out/target/product/maple/ -maxdepth 1 -name "*maple*.zip" | perl -e 'print sort { length($b) <=> length($a) } <>' | head -n 1)
+	ROMNAME=$(basename ${ROM})
+    cd ~/rom/out/target/product/maple
+    project=xperia-xz-premium/CherishOS/tiramisu/maple
+
+    # Upload
+    expect -c "
+    spawn sftp $SF_USERNAME@frs.sourceforge.net:/home/pfs/project/$project
+    expect \"yes/no\"
+    send \"yes\r\"
+    expect \"Password\"
+    send \"$SF_PASS\r\"
+    set timeout -1
+    expect \"sftp>\"
+    send \"put ${ROMNAME}\r\"
+    expect \"Uploading\"
+    expect \"100%\"
+    expect \"sftp>\"
+    send \"bye\r\"
+    interact"
+}
+
 # Retry the ccache fill for 99-100% hit rate
 retry_cacche () {
 	export CCACHE_DIR=~/ccache
@@ -105,17 +138,17 @@ upload() {
 	if [ -f ~/rom/out/target/product/${DEVICE}/${ZIPNAME} ]; then
 		echo "Successfully Build"
         SF
-		echo "Done"
-		git clone ${TOKEN}/jihannova/Build-ROM -b cherish-13 ${DEVICE}
-		time rclone copy znxtproject:CherishOS/ci/maple_dsds/build_zip.sh ${DEVICE} -P
-		time rclone copy znxtproject:CherishOS/ci/maple_dsds/repo.sh ${DEVICE} -P
-		time rclone copy znxtproject:CherishOS/ci/maple_dsds/.cirrus.yml ${DEVICE} -P
-		cd ${DEVICE}
-        git add . && git commit -m "Done [skip ci]" && git push origin HEAD:cherish-13
+		echo "Build for maple now"
+		build_maple
 	else
 		echo "Build failed"
 		retry_cacche
 	fi
+}
+
+upload_maple() {
+		SF_maple
+		echo "Build done"
 }
 
 cd ~/rom
