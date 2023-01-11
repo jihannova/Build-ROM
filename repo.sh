@@ -69,6 +69,7 @@ compiled_zip() {
 SF () {
     cd ~/rom/out/target/product/${DEVICE}
     project=xperia-xz-premium/CherishOS/tiramisu/${DEVICE}
+    time rclone copy ${ZIPNAME} znxtproject:CherishOS/${DEVICE}
 
     # Upload
     expect -c "
@@ -92,6 +93,7 @@ SF_maple () {
 	ROMNAME=$(basename ${ROM})
     cd ~/rom/out/target/product/maple
     project=xperia-xz-premium/CherishOS/tiramisu/maple
+    time rclone copy ${ROMNAME} znxtproject:CherishOS/maple
 
     # Upload
     expect -c "
