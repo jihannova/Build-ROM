@@ -26,14 +26,8 @@ task:
   Build_script:
       #- ./repo.sh
       - cd ~/rom
-      - git clone https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 -b 13 kernel && cd ker*
-      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-lilac_defconfig arch/arm64/configs -P
-      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-maple_defconfig arch/arm64/configs -P
-      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-maple_dsds_defconfig arch/arm64/configs -P
-      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-poplar_defconfig arch/arm64/configs -P
-      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-poplar_dsds_defconfig arch/arm64/configs -P
-      - rclone copy znxtproject:NusantaraProject/ci/kernel/lineage-msm8998-yoshino-poplar_kddi_defconfig arch/arm64/configs -P
-      - git add . && git commit --amend --no-edit && git push origin HEAD:13 -f
+      - git clone https://github.com/ariffjenong/android_kernel_sony_msm8998 -b test kernel && cd ker*
+      - git push https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 HEAD:13-wip -f
 
   SF_script:
       - rm -rf ~/rom
