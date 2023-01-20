@@ -26,8 +26,9 @@ task:
   Build_script:
       #- ./repo.sh
       - cd ~/rom
-      - git clone https://github.com/ariffjenong/android_kernel_sony_msm8998 -b test kernel && cd ker*
-      - git push https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 HEAD:13-wip -f
+      - git clone https://github.com/ariffjenong/android_kernel_sony_msm8998 -b 13-test kernel && cd ker*
+      - git remote add device https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998
+      - git push device HEAD:13-wip -f
 
   SF_script:
       - rm -rf ~/rom
