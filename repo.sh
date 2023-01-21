@@ -32,7 +32,7 @@ build () {
      export BUILD_HOSTNAME=znxt
      export BUILD_USERNAME=znxt
      export TZ=Asia/Jakarta
-     lunch nad_lavender-user
+     lunch nad_lavender-userdebug
      #make bootimage vendorimage
      make systemimage -j8
      #mka bacon -j8
@@ -52,43 +52,22 @@ compiled_zip() {
 	ZIPNAME=$(basename ${ZIP})
 }
 
-SF () {
-    cd ~/rom/out/target/product/${DEVICE}
-    project=xperia-xz-premium/NusantaraProject/tiramisu/${DEVICE}
-
-    # Upload
-    expect -c "
-    spawn sftp $SF_USERNAME@frs.sourceforge.net:/home/pfs/project/$project
-    expect \"yes/no\"
-    send \"yes\r\"
-    expect \"Password\"
-    send \"$SF_PASS\r\"
-    set timeout -1
-    expect \"sftp>\"
-    send \"put ${ZIPNAME}\r\"
-    expect \"Uploading\"
-    expect \"100%\"
-    expect \"sftp>\"
-    send \"bye\r\"
-    interact"
-}
-
 # Retry the ccache fill for 99-100% hit rate
 retry_cacche () {
 	export CCACHE_DIR=~/ccache
 	export CCACHE_EXEC=$(which ccache)
 	hit_rate=$(ccache -s | awk '/hit rate/ {print $4}' | cut -d'.' -f1)
 	if [ $hit_rate -lt 99 ]; then
-	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache ${DEVICE}
-		time rclone copy znxtproject:NusantaraProject/ci/cchace2/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
+	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-${DEVICE} ${DEVICE}
+		time rclone copy znxtproject:NusantaraProject/ci/cchace3/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
 	    git add . && git commit -m "Retry Cache $(date -u +"%D %T%p %Z")"
-	    git push origin HEAD:ccache
+	    git push origin HEAD:ccache-${DEVICE}
 	else
 	    echo "Ccache is fully configured"
-	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache ${DEVICE}
+	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-${DEVICE} ${DEVICE}
 		time rclone copy znxtproject:NusantaraProject/ci/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
 	    git add . && git commit -m "Build $(date -u +"%D %T%p %Z")"
-	    git push origin HEAD:ccache
+	    git push origin HEAD:ccache-${DEVICE}
 	fi
 }
 
@@ -101,7 +80,7 @@ upload() {
 	git config --global credential.helper store --file=~/.git-credentials
 	if [ -f ~/rom/out/target/product/${DEVICE}/${ZIPNAME} ]; then
 		echo "Successfully Build"
-		time rclone copy ~/rom/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:NusantaraProject/lavender -P
+		time rclone copy ~/rom/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:NusantaraProject/${DEVICE} -P
 	else
 		echo "Build failed"
 		retry_cacche
@@ -112,7 +91,7 @@ cd ~/rom
 ls -lh
 compile &
 #sleep 55m
-sleep 60m
+sleep 90m
 kill %1
 compiled_zip
 upload
