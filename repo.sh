@@ -4,7 +4,7 @@ sync () {
     cd ~/rom
     repo init --depth=1 --no-repo-verify -u ${Nusantara} -b 13 -g default,-mips,-darwin,-notdefault
     rclone copy znxtproject:NusantaraProject/manifest/13-lavender/nusantara.xml .repo/manifests/snippets -P
-    rclone copy znxtproject:NusantaraProject/local_manifests/13-lavender/nad_lavender.xml .repo/local_manifests -P
+    rclone copy znxtproject:NusantaraProject/manifest/13-lavender/nad_lavender.xml .repo/local_manifests -P
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 }
