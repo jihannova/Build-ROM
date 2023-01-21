@@ -59,14 +59,13 @@ retry_cacche () {
 	hit_rate=$(ccache -s | awk '/hit rate/ {print $4}' | cut -d'.' -f1)
 	if [ $hit_rate -lt 99 ]; then
 	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-${DEVICE} ${DEVICE}
-		time rclone copy znxtproject:NusantaraProject/ci/cchace3/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
-	    git add . && git commit -m "Retry Cache $(date -u +"%D %T%p %Z")"
+		git commit --allow-empty -m "Retry Cacche $(date -u +"%D %T%p %Z")"
 	    git push origin HEAD:ccache-${DEVICE}
 	else
 	    echo "Ccache is fully configured"
 	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-${DEVICE} ${DEVICE}
-		time rclone copy znxtproject:NusantaraProject/ci/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
-	    git add . && git commit -m "Build $(date -u +"%D %T%p %Z")"
+		time rclone copy znxtproject:NusantaraProject/ci/cchace1/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
+	    git add . && git commit -m "get ccache Done at $(date -u +"%D %T%p %Z") [skip ci]"
 	    git push origin HEAD:ccache-${DEVICE}
 	fi
 }
@@ -89,10 +88,10 @@ upload() {
 
 cd ~/rom
 ls -lh
-compile &
+compile #&
 #sleep 55m
-sleep 90m
-kill %1
+#sleep 90m
+#kill %1
 compiled_zip
 upload
 
