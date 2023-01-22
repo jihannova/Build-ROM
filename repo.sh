@@ -38,6 +38,16 @@ build () {
      make nad -j8
 }
 
+build_gapps () {
+     cd ~/rom
+     make installclean
+     export USE_GAPPS=true
+     lunch nad_lavender-userdebug
+     make nad -j8
+     compiled_zip
+     upload_gapps
+}
+
 compile () {
     sync
     echo "done."
@@ -58,7 +68,7 @@ retry_cacche () {
 	export CCACHE_EXEC=$(which ccache)
 	hit_rate=$(ccache -s | awk '/hit rate/ {print $4}' | cut -d'.' -f1)
 	if [ $hit_rate -lt 99 ]; then
-	    git clone ${TOKEN}/jihannova/Build-ROM -b 13-${DEVICE} ${DEVICE}
+	    git clone ${TOKEN}/jihannova/Build-ROM -b 13-${DEVICE} ${DEVICE} && cd ${DEVICE}
 	    git add . && git commit -m --allow-empty "Retry Build $(date -u +"%D %T%p %Z")"
 	    git push origin HEAD:13-${DEVICE}
 	else
@@ -78,11 +88,21 @@ upload() {
 	git config --global credential.helper store --file=~/.git-credentials
 	if [ -f ~/rom/out/target/product/${DEVICE}/${ZIPNAME} ]; then
 		echo "Successfully Build"
+		echo "Uploading ${ZIPNAME}"
 		time rclone copy ~/rom/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:NusantaraProject/${DEVICE} -P
+		echo "Build GApps now"
+		build_gapps
 	else
 		echo "Build failed"
 		retry_cacche
 	fi
+}
+
+upload_gapps() {
+	cd ~
+	echo "Successfully Build"
+	echo "Uploading ${ZIPNAME}"
+	time rclone copy ~/rom/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:NusantaraProject/${DEVICE} -P
 }
 
 cd ~/rom
