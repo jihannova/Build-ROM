@@ -33,6 +33,7 @@ build () {
      export BUILD_USERNAME=znxt
      export TZ=Asia/Jakarta
      lunch nad_lavender-userdebug
+     make installclean
      #make bootimage vendorimage
      #make systemimage -j8
      make nad -j8
@@ -52,6 +53,18 @@ compiled_zip() {
 	ZIPNAME=$(basename ${ZIP})
 }
 
+build_gapps () {
+     cd ~/rom
+     make installclean
+     export USE_GAPPS=true
+     lunch nad_lavender-userdebug
+     #make bootimage vendorimage
+     #make systemimage -j8
+     make nad -j8
+     compiled_zip
+     upload_gapps
+}
+
 # Retry the ccache fill for 99-100% hit rate
 retry_cacche () {
 	export CCACHE_DIR=~/ccache
@@ -65,7 +78,7 @@ retry_cacche () {
 	else
 	    echo "Ccache is fully configured"
 	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-${DEVICE} ${DEVICE}
-		time rclone copy znxtproject:NusantaraProject/ci/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
+		time rclone copy znxtproject:NusantaraProject/ci/cchace3/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
 	    git add . && git commit -m "Build $(date -u +"%D %T%p %Z")"
 	    git push origin HEAD:ccache-${DEVICE}
 	fi
@@ -81,9 +94,20 @@ upload() {
 	if [ -f ~/rom/out/target/product/${DEVICE}/${ZIPNAME} ]; then
 		echo "Successfully Build"
 		time rclone copy ~/rom/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:NusantaraProject/${DEVICE} -P
+		echo "Build GApps now"
+		build_gapps
 	else
 		echo "Build failed"
 		retry_cacche
+	fi
+}
+
+upload_gapps() {
+	if [ -f ~/rom/out/target/product/${DEVICE}/${ZIPNAME} ]; then
+		echo "Successfully Build"
+		time rclone copy ~/rom/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:NusantaraProject/${DEVICE} -P
+	else
+		echo "Build failed"
 	fi
 }
 
