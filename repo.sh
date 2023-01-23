@@ -42,7 +42,6 @@ build_gapps () {
      cd ~/rom
      make installclean
      export USE_GAPPS=true
-     lunch nad_lavender-userdebug
      make nad -j8
      compiled_zip
      upload_gapps
@@ -68,13 +67,14 @@ retry_cacche () {
 	export CCACHE_EXEC=$(which ccache)
 	hit_rate=$(ccache -s | awk '/hit rate/ {print $4}' | cut -d'.' -f1)
 	if [ $hit_rate -lt 99 ]; then
+	    echo "Retry Build"
 	    git clone ${TOKEN}/jihannova/Build-ROM -b 13-${DEVICE} ${DEVICE} && cd ${DEVICE}
 	    git add . && git commit -m --allow-empty "Retry Build $(date -u +"%D %T%p %Z")"
 	    git push origin HEAD:13-${DEVICE}
 	else
-	    echo "Ccache is fully configured"
-	    git clone ${TOKEN}/jihannova/Build-ROM -b 13-${DEVICE} ${DEVICE}
-	    git add . && git commit -m --allow-empty "Build $(date -u +"%D %T%p %Z")"
+	    echo "Retry Build"
+	    git clone ${TOKEN}/jihannova/Build-ROM -b 13-${DEVICE} ${DEVICE} && cd ${DEVICE}
+	    git add . && git commit -m --allow-empty "Retry Build $(date -u +"%D %T%p %Z")"
 	    git push origin HEAD:13-${DEVICE}
 	fi
 }
