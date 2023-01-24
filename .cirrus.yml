@@ -26,9 +26,13 @@ task:
   Build_script:
       #- ./repo.sh
       - cd ~/rom
-      - git clone https://github.com/ariffjenong/android_kernel_sony_msm8998 -b 13-test kernel && cd ker*
-      - git remote add device https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998
-      - git push device HEAD:13-wip -f
+      - git clone https://github.com/ariffjenong/kernel_xiaomi_lavender kernel
+      - git clone https://github.com/ariffjenong/vendor_xiaomi_lavender vendor && cd vendor
+      - git fetch https://github.com/OmarAlCoptan/vendor_xiaomi_lavender tiramisu
+      - git checkout FETCH_HEAD && git push origin HEAD:refs/heads/13
+      - cd ~/rom/kernel
+      - git fetch https://github.com/OmarAlCoptan/kernel_xiaomi_lavender tiramisu
+      - git checkout FETCH_HEAD && git push origin HEAD:refs/heads/13
 
   SF_script:
       - rm -rf ~/rom
