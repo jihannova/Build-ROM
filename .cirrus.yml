@@ -42,7 +42,7 @@ task:
       - rclone copy znxtproject:NusantaraProject/lavender/kernel/syscall.c kernel/bpf
       - rclone copy znxtproject:NusantaraProject/lavender/kernel/sysctl.c kernel
       - rclone copy znxtproject:NusantaraProject/lavender/kernel/security.c security
-      - git add . && git merge --continue -m "Merge linux-4.4.y-st-rc"
+      - git add . && git merge --continue --no-edit
       - git push origin HEAD:13-wip -f
 
   SF_script:
