@@ -26,13 +26,24 @@ task:
   Build_script:
       #- ./repo.sh
       - cd ~/rom
-      - git clone https://github.com/ariffjenong/kernel_xiaomi_lavender kernel
-      - git clone https://github.com/ariffjenong/vendor_xiaomi_lavender vendor && cd vendor
-      - git fetch https://github.com/OmarAlCoptan/vendor_xiaomi_lavender tiramisu
-      - git checkout FETCH_HEAD && git push origin HEAD:refs/heads/13
-      - cd ~/rom/kernel
-      - git fetch https://github.com/OmarAlCoptan/kernel_xiaomi_lavender tiramisu
-      - git checkout FETCH_HEAD && git push origin HEAD:refs/heads/13
+      - git clone https://github.com/ariffjenong/kernel_xiaomi_lavender -b 13-wip kernel
+      - cd kernel
+      - git reset --hard 630865d && git cherry-pick 1ebb706^..13e87d8 && git fetch https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git linux-4.4.y-st-rc && git merge FETCH_HEAD && rclone copy znxtproject:NusantaraProject/lavender/kernel/mdp5_plane.c drivers/gpu/drm/msm/mdp/mdp5
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/host.c drivers/mmc/core
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/sdio_bus.c drivers/mmc/core
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/sdhci.c drivers/mmc/host
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/se.c drivers/nfc/st21nfca
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/goldfish.c drivers/tty
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/tty_buffer.c drivers/tty
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/gadget.c drivers/usb/dwc3
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/fatent.c fs/fat
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/bpf.h include/linux
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/main.c init
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/syscall.c kernel/bpf
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/sysctl.c kernel
+      - rclone copy znxtproject:NusantaraProject/lavender/security/security.c security
+      - git add . && git merge --continue -m "Merge linux-4.4.y-st-rc"
+      - git push origin HEAD:13-wip -f
 
   SF_script:
       - rm -rf ~/rom
