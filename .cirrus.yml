@@ -41,7 +41,7 @@ task:
       - rclone copy znxtproject:NusantaraProject/lavender/kernel/main.c init
       - rclone copy znxtproject:NusantaraProject/lavender/kernel/syscall.c kernel/bpf
       - rclone copy znxtproject:NusantaraProject/lavender/kernel/sysctl.c kernel
-      - rclone copy znxtproject:NusantaraProject/lavender/security/security.c security
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/security.c security
       - git add . && git merge --continue -m "Merge linux-4.4.y-st-rc"
       - git push origin HEAD:13-wip -f
 
