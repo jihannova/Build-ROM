@@ -28,7 +28,12 @@ task:
       - cd ~/rom
       - git clone https://github.com/ariffjenong/kernel_xiaomi_lavender -b 13-wip kernel
       - cd kernel
-      - git commit --amend --no-edit
+      - git reset --hard HEAD^
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/goldfish.c drivers/tty
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/tty_buffer.c drivers/tty
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/gadget.c drivers/usb/dwc3
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/security.c security
+      - git add . && git commit --amend --no-edit && git cherry-pick d6f78af
       - git push origin HEAD:13-wip -f
 
   SF_script:
