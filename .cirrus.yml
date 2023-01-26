@@ -29,11 +29,21 @@ task:
       - git clone https://github.com/ariffjenong/kernel_xiaomi_lavender -b 13-wip kernel
       - cd kernel
       - git reset --hard HEAD^
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/mdp5_plane.c drivers/gpu/drm/msm/mdp/mdp5
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/host.c drivers/mmc/core
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/sdio_bus.c drivers/mmc/core
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/sdhci.c drivers/mmc/host
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/se.c drivers/nfc/st21nfca
       - rclone copy znxtproject:NusantaraProject/lavender/kernel/goldfish.c drivers/tty
       - rclone copy znxtproject:NusantaraProject/lavender/kernel/tty_buffer.c drivers/tty
       - rclone copy znxtproject:NusantaraProject/lavender/kernel/gadget.c drivers/usb/dwc3
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/fatent.c fs/fat
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/bpf.h include/linux
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/main.c init
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/syscall.c kernel/bpf
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/sysctl.c kernel
       - rclone copy znxtproject:NusantaraProject/lavender/kernel/security.c security
-      - git add . && git commit --amend --no-edit && git cherry-pick d6f78af
+      - git add . && git commit --amend --no-edit && git cherry-pick 89a79f2
       - git push origin HEAD:13-wip -f
 
   SF_script:
