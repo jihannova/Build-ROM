@@ -28,8 +28,10 @@ task:
       - cd ~/rom
       - git clone https://github.com/ariffjenong/kernel_xiaomi_lavender -b 13-wip kernel
       - cd kernel
-      - git checkout 82170e9
-      - git cherry-pick a0bb05a^..afe8e2b
+      - git checkout 22d1326
+      - rclone copy znxtproject:NusantaraProject/lavender/kernel/lavender_defconfig arch/arm64/configs
+      - git add . && git commit --amend --no-edit
+      - git cherry-pick 5c2d647
       - git push origin HEAD:13-wip -f
 
   SF_script:
