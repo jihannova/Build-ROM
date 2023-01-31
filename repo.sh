@@ -54,15 +54,21 @@ build_maple () {
 
 # Retry the ccache fill for 99-100% hit rate
 retry_cacche () {
-    cd ~ && ls
 	export CCACHE_DIR=~/ccache
 	export CCACHE_EXEC=$(which ccache)
-	ccache -s
 	hit_rate=$(ccache -s | awk '/hit rate/ {print $4}' | cut -d'.' -f1)
-	git clone ${TOKEN}/jihannova/Build-ROM -b ccache-cherish ${DEVICE}
-	time rclone copy znxtproject:CherishOS/ci/cchace2/repo.sh ${DEVICE} -P && cd ${DEVICE}
-	git add . && git commit -m "Retry Cacche $(date -u +"%D %T%p %Z")"
-	git push origin HEAD:ccache-cherish
+	if [ $hit_rate -lt 99 ]; then
+	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-cherish ${DEVICE}
+		time rclone copy znxtproject:CherishOS/ci/cchace3/repo.sh ${DEVICE} -P && cd ${DEVICE}
+		git add . && git commit -m "Retry Cacche $(date -u +"%D %T%p %Z")"
+	    git push origin HEAD:ccache-cherish
+	else
+	    echo "Ccache is fully configured"
+	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-cherish ${DEVICE}
+		time rclone copy znxtproject:CherishOS/ci/cchace3/repo.sh ${DEVICE} -P && cd ${DEVICE}
+	    git add . && git commit -m "get ccache Done at $(date -u +"%D %T%p %Z") [skip ci]"
+	    git push origin HEAD:ccache-cherish
+	fi
 }
 
 upload() {
@@ -97,7 +103,7 @@ upload_maple() {
 cd ~/rom
 ls -lh
 compile &
-sleep 70m
+sleep 100m
 kill %1
 compiled_zip
 upload
