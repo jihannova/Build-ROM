@@ -59,17 +59,25 @@ retry_cacche () {
 	ccache -s
 	hit_rate=$(ccache -s | awk 'NR==2 { print $5 }' | tr -d '(' | cut -d'.' -f1)
 	if [ $hit_rate -lt 99 ]; then
-	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-cherish ${DEVICE}
-		time rclone copy znxtproject:CherishOS/ci/cchace3/repo.sh ${DEVICE} -P && cd ${DEVICE}
-		git add . && git commit -m "Retry Cacche $(date -u +"%D %T%p %Z")"
+	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-cherish ${DEVICE} && cd ${DEVICE}
+		git commit --allow-empty -m "Retry Build $(date -u +"%D %T%p %Z")"
 	    git push origin HEAD:ccache-cherish
 	else
 	    echo "Ccache is fully configured"
 	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-cherish ${DEVICE}
-		time rclone copy znxtproject:CherishOS/ci/cchace3/repo.sh ${DEVICE} -P && cd ${DEVICE}
-	    git add . && git commit -m "try build $(date -u +"%D %T%p %Z")"
+		time rclone copy znxtproject:CherishOS/ci/cchace1/repo.sh ${DEVICE} -P && cd ${DEVICE}
+	    git add . && git commit -m "get ccache Done at $(date -u +"%D %T%p %Z") [skip ci]"
 	    git push origin HEAD:ccache-cherish
 	fi
+}
+
+# get ccache done restore to ccache 1 for next update
+get_cacche_complete () {
+	echo "Ccache is fully configured"
+	git clone ${TOKEN}/jihannova/Build-ROM -b ccache-cherish ${DEVICE}
+	time rclone copy znxtproject:CherishOS/ci/cchace1/repo.sh ${DEVICE} -P && cd ${DEVICE}
+	git add . && git commit -m "get ccache Done at $(date -u +"%D %T%p %Z") [skip ci]"
+	git push origin HEAD:ccache-cherish
 }
 
 upload() {
@@ -96,6 +104,7 @@ upload_maple() {
 	if [ -f ~/rom/out/target/product/maple/${ROM_NAME} ]; then
 		echo "Successfully Build"
 		time rclone copy ~/rom/out/target/product/maple/${ROM_NAME} znxtproject:CherishOS/maple -P
+		get_cacche_complete
 	else
 		echo "Build failed"
 	fi
@@ -103,9 +112,9 @@ upload_maple() {
 
 cd ~/rom
 ls -lh
-compile &
-sleep 107m
-kill %1
+compile #&
+#sleep 100m
+#kill %1
 compiled_zip
 upload
 
