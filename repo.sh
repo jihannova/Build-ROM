@@ -54,6 +54,7 @@ build_maple () {
 
 # Retry the ccache fill for 99-100% hit rate
 retry_cacche () {
+    cd ~/rom
 	export CCACHE_DIR=~/ccache
 	export CCACHE_EXEC=$(which ccache)
 	hit_rate=$(ccache -s | awk '/hit rate/ {print $4}' | cut -d'.' -f1)
