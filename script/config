@@ -5,6 +5,7 @@
 name_rom=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d / -f 4)
 branch_name=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh | awk -F "-b " '{print $2}' | awk '{print $1}')
 BUILDLOG=$WORKDIR/rom/$name_rom/build.log
+ERRORLOG=$WORKDIR/rom/$name_rom/build_error
 DEPIS=$(grep product $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d ' ' -f 3 | cut -d _ -f 2 | cut -d - -f 1)
 DISTRO=$(source /etc/os-release && echo "${PRETTY_NAME}")
 
@@ -352,10 +353,7 @@ Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
         tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --text "Build Aborted 💔 with Code Exit ${retVal}.
 Sudah kubilang yang teliti 😡"
         echo "Build Aborted"
-        tg_send_document --chat_id "$TG_CHAT_ID" --document "$BUILDLOG" --reply_to_message_id "$CI_MESSAGE_ID"
-        LOGTRIM="$CDIR/out/log_trimmed.log"
-        sed -n '/FAILED:/,//p' $BUILDLOG &> $LOGTRIM
-        tg_send_document --chat_id "$TG_CHAT_ID" --document "$LOGTRIM" --reply_to_message_id "$CI_MESSAGE_ID"
+        tg_send_document --chat_id "$TG_CHAT_ID" --document "$ERRORLOG" --reply_to_message_id "$CI_MESSAGE_ID"
         exit $retVal
     fi
     if [[ $retVal -eq 141 ]]; then
@@ -363,10 +361,7 @@ Sudah kubilang yang teliti 😡"
 Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
         tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --text "Build Aborted ❌ with Code Exit ${retVal}."
         echo "Build Aborted"
-        tg_send_document --chat_id "$TG_CHAT_ID" --document "$BUILDLOG" --reply_to_message_id "$CI_MESSAGE_ID"
-        LOGTRIM="$CDIR/out/log_trimmed.log"
-        sed -n '/FAILED:/,//p' $BUILDLOG &> $LOGTRIM
-        tg_send_document --chat_id "$TG_CHAT_ID" --document "$LOGTRIM" --reply_to_message_id "$CI_MESSAGE_ID"
+        tg_send_document --chat_id "$TG_CHAT_ID" --document "$ERRORLOG" --reply_to_message_id "$CI_MESSAGE_ID"
         exit $retVal
     fi
     if [[ $retVal -ne 0 ]]; then
@@ -374,10 +369,7 @@ Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
 Total time elapsed: $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds."
         tg_send_message --chat_id "$TG_CHAT_ID_SECOND" --text "Build Error ❌ with Code Exit ${retVal}."
         echo "Build Error"
-        tg_send_document --chat_id "$TG_CHAT_ID" --document "$BUILDLOG" --reply_to_message_id "$CI_MESSAGE_ID"
-        LOGTRIM="$CDIR/out/log_trimmed.log"
-        sed -n '/FAILED:/,//p' $BUILDLOG &> $LOGTRIM
-        tg_send_document --chat_id "$TG_CHAT_ID" --document "$LOGTRIM" --reply_to_message_id "$CI_MESSAGE_ID"
+        tg_send_document --chat_id "$TG_CHAT_ID" --document "$ERRORLOG" --reply_to_message_id "$CI_MESSAGE_ID"
         exit $retVal
     fi
     build_message "Build success ✅"

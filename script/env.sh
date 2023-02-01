@@ -1,7 +1,6 @@
 #!/bin/bash
 
 cd $WORKDIR
-mkdir -p ~/rom
 
 git config --global user.name "ariffjenong"
 git config --global user.email "arifbuditantodablekk@gmail.com"

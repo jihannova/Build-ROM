@@ -9,6 +9,8 @@ curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d
 source $CIRRUS_WORKING_DIR/script/config
 timeStart
 
+rm device/cherish/sepolicy/common/public/property.te
+rclone copy znxtproject:CherishOS/frameworks/ActivityTaskManagerService.java fr*/b*/services/core/java/com/android/server/wm -P
 . build/envsetup.sh
 lunch cherish_maple_dsds-user
 mkfifo reading
