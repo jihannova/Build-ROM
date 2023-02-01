@@ -14,7 +14,7 @@ telegram_message() {
 function enviroment() {
 device=$(ls $WORKDIR/rom/$name_rom/out/target/product)
 name_rom=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d / -f 4)
-file_name=$(ls $WORKDIR/rom/$name_rom/out/target/product/$device/*$device*.zip)
+file_name=$(find $WORKDIR/rom/$name_rom/out/target/product/${device}/ -maxdepth 1 -name "*${device}*.zip" | perl -e 'print sort { length($b) <=> length($a) } <>' | head -n 1)
 branch_name=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh | awk -F "-b " '{print $2}' | awk '{print $1}')
 rel_date=$(date "+%Y%m%d")
 DATE_L=$(date +%d\ %B\ %Y)
@@ -26,8 +26,7 @@ echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
 msg Upload rom..
 echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
 cd $WORKDIR/rom/$name_rom
-file_name=$(ls out/target/product/$device/*$device*.zip)
-rclone copy out/target/product/$file_name znxtproject:$name_rom/$device -P
+rclone copy out/target/product/$device/*${device}*.zip znxtproject:$name_rom/$device -P
 cd $WORKDIR/rom/$name_rom/out/target/product/$device
 echo -e \
 "
@@ -37,7 +36,7 @@ echo -e \
 <b>📁 File Name :-</b> <code>"${file_name}"</code>
 <b>⏰ Timer Build :- "$(grep "#### build completed successfully" $WORKDIR/rom/$name_rom/build.log -m 1 | cut -d '(' -f 2)"</b>
 <b>📱 Device :- "${device}"</b>
-<b>📂 Size :- "$(ls -lh *zip | cut -d ' ' -f5)"</b>
+<b>📂 Size :- "$(ls -lh *${device}*.zip | cut -d ' ' -f5)"</b>
 <b>🖥 Branch Build :- "${branch_name}"</b>
 <b>📅 Date :- "$(date +%d\ %B\ %Y)"</b>
 <b>🕔 Time Zone :- "$(date +%T)"</b>
@@ -84,7 +83,7 @@ if [[ $a == *'#### build completed successfully'* ]]
   upload_rom
   if [[ $device == maple_dsds ]]
       then
-      rm -rf out/target/product/$device
+      rm -rf $WORKDIR/rom/$name_rom/out/target/product/$device
   else
       echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
       msg Upload ccache..

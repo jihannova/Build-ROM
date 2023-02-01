@@ -5,7 +5,7 @@
 name_rom=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d / -f 4)
 branch_name=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh | awk -F "-b " '{print $2}' | awk '{print $1}')
 BUILDLOG=$WORKDIR/rom/$name_rom/build.log
-ERRORLOG=$WORKDIR/rom/$name_rom/build_error
+ERRORLOG=$WORKDIR/rom/$name_rom/out/build_error
 DEPIS=$(grep product $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d ' ' -f 3 | cut -d _ -f 2 | cut -d - -f 1)
 DISTRO=$(source /etc/os-release && echo "${PRETTY_NAME}")
 
