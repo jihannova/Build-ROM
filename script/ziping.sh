@@ -83,6 +83,7 @@ if [[ $a == *'#### build completed successfully'* ]]
   echo
   upload_rom
   if [[ $device == maple_dsds ]]
+      then
       rm -rf out/target/product/$device
   else
       echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
