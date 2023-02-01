@@ -7,7 +7,7 @@ env:
   TOKEN: "ENCRYPTED[!820ada0cc3426d85e54e55a7cc1586917d1ef7b4db01102982bab081bc5de2a124b45babc64631b1006cc2b28df530e1!]"
 
 # FLAG
-  WORKDIR: "~"
+  WORKDIR: "/tmp"
   CIRRUS_CLONE_DEPTH: "1"
 
 task:
