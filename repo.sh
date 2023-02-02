@@ -25,7 +25,7 @@ build () {
      export BUILD_USERNAME=znxt
      export TZ=Asia/Jakarta
      lunch nad_maple_dsds-user
-     mka bacon -j8
+     mka nad -j8
 }
 
 compile () {
@@ -44,7 +44,7 @@ compiled_zip() {
 build_maple () {
      cd ~/rom
      lunch nad_maple-user
-     mka bacon -j8
+     mka nad -j8
      compiled_zip
      upload_maple
 }
