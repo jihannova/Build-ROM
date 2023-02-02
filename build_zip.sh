@@ -8,7 +8,7 @@ com () {
 get_ccache () {
   cd ~
   time com ccache 1
-  time rclone copy ccache.tar.* znxtproject:ccache/$ROM_PROJECT -P
+  time rclone copy ccache.tar.* znxtproject:ccache/$ROM_PROJECT/lavender -P
   time rm ccache.tar.*
   ls -lh
 }

@@ -2,7 +2,7 @@
     
 sync () {
     cd ~/rom
-    time rclone copy znxtproject:ccache/$ROM_PROJECT/.repo.tar.zst ~/rom -P
+    time rclone copy znxtproject:ccache/$ROM_PROJECT/lavender/.repo.tar.zst ~/rom -P
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
@@ -90,12 +90,11 @@ upload() {
 	echo "$TOKEN" > ~/.git-credentials
 	git config --global credential.helper store --file=~/.git-credentials
 	if [ -f ~/rom/out/target/product/${DEVICE}/${ZIPNAME} ]; then
-		echo "Successfully Build"
-		time rclone copy ~/rom/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:NusantaraProject/${DEVICE} -P
-		echo "Build GApps now"
-		build_gapps
+		echo "done"
+	    git clone ${TOKEN}/jihannova/Build-ROM -b nad-13_${DEVICE} ${DEVICE} && cd ${DEVICE}
+		git commit --allow-empty -m "Build Lavender: $(date -u +"%D %T%p %Z")"
+	    git push origin HEAD:nad-13_${DEVICE}
 	else
-		echo "Build failed"
 		retry_cacche
 	fi
 }
@@ -111,10 +110,10 @@ upload_gapps() {
 
 cd ~/rom
 ls -lh
-compile #&
+compile &
 #sleep 55m
-#sleep 100m
-#kill %1
+sleep 110m
+kill %1
 compiled_zip
 upload
 
