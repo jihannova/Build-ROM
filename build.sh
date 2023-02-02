@@ -1,6 +1,6 @@
 # build job ///NusantaraProject/ -b 13
 
-# product maple
+# product lavender
 
 # build rom
 curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="Start Sync source"
@@ -10,7 +10,7 @@ source $CIRRUS_WORKING_DIR/script/config
 timeStart
 
 . build/envsetup.sh
-lunch nad_maple_dsds-user
+lunch nad_lavender-userdebug
 mkfifo reading
 tee "${BUILDLOG}" < reading &
 build_message "Building Started"

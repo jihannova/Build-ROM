@@ -14,7 +14,7 @@ telegram_message() {
 function enviroment() {
 device=$(ls $WORKDIR/rom/$name_rom/out/target/product)
 name_rom=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d / -f 4)
-file_name=$(find $WORKDIR/rom/$name_rom/out/target/product/${device}/ -maxdepth 1 -name "*${device}*.zip" | perl -e 'print sort { length($b) <=> length($a) } <>' | head -n 1)
+file_name=$(basename $(find $WORKDIR/rom/$name_rom/out/target/product/${device}/ -maxdepth 1 -name "*${device}*.zip" | perl -e 'print sort { length($b) <=> length($a) } <>' | head -n 1))
 branch_name=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh | awk -F "-b " '{print $2}' | awk '{print $1}')
 rel_date=$(date "+%Y%m%d")
 DATE_L=$(date +%d\ %B\ %Y)
@@ -36,7 +36,7 @@ echo -e \
 <b>📁 File Name :-</b> <code>"${file_name}"</code>
 <b>⏰ Timer Build :- "$(grep "#### build completed successfully" $WORKDIR/rom/$name_rom/build.log -m 1 | cut -d '(' -f 2)"</b>
 <b>📱 Device :- "${device}"</b>
-<b>📂 Size :- "$(ls -lh *${device}*.zip | cut -d ' ' -f5)"</b>
+<b>📂 Size :- "$(ls -lh ${file_name} | cut -d ' ' -f5)"</b>
 <b>🖥 Branch Build :- "${branch_name}"</b>
 <b>📅 Date :- "$(date +%d\ %B\ %Y)"</b>
 <b>🕔 Time Zone :- "$(date +%T)"</b>
@@ -54,6 +54,19 @@ echo
 echo Download Link: ${DL_LINK}
 echo
 echo
+cd ..
+  if [[ $device == maple_dsds ]]
+      then
+      rm -rf $device
+  elif [[ $device != maple_dsds && $file_name == *$device*GAPPS*.zip ]]
+      then
+      rm $device/*.zip
+  else
+      echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
+      msg Upload ccache..
+      echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
+      upload_ccache
+  fi
 }
 
 function upload_ccache() {
@@ -81,15 +94,6 @@ if [[ $a == *'#### build completed successfully'* ]]
   echo
   echo
   upload_rom
-  if [[ $device == maple_dsds ]]
-      then
-      rm -rf $WORKDIR/rom/$name_rom/out/target/product/$device
-  else
-      echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
-      msg Upload ccache..
-      echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
-      upload_ccache
-  fi
 else
   echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
   msg ❌ Build not completed, Upload ccache only ❌

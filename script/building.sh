@@ -26,10 +26,10 @@ bash $CIRRUS_WORKING_DIR/script/config
 JOB_START=$(date +"%s")
 bash -c "$build_script" || true
 bash $CIRRUS_WORKING_DIR/script/check_build.sh
+bash $CIRRUS_WORKING_DIR/script/ziping.sh
 a=$(grep '#### build completed successfully' $WORKDIR/rom/$name_rom/build.log -m1 || true)
 if [[ $device == maple && ! -f out/build_error && $a == *'#### build completed successfully'* ]]
    then
-    bash $CIRRUS_WORKING_DIR/script/ziping.sh
     bash $CIRRUS_WORKING_DIR/script/config
     bash -c "$build_maple_script" || true
     bash $CIRRUS_WORKING_DIR/script/check_build.sh
@@ -38,7 +38,10 @@ if [[ $device == maple && ! -f out/build_error && $a == *'#### build completed s
     curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="All job Done.
 Total time elapsed: $(($JOB_TOTAL / 60)) minute(s) and $(($JOB_TOTAL % 60)) seconds"
 else
-    bash $CIRRUS_WORKING_DIR/script/ziping.sh
+    rm $WORKDIR/rom/$name_rom/out/target/product/$device/*zip
+    export USE_GAPPS=true
+    bash -c "$build_script" || true
+    bash $CIRRUS_WORKING_DIR/script/check_build.sh
     JOB_END=$(date +"%s")
     JOB_TOTAL=$(($JOB_END - $JOB_START))
     curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="build job Done.
