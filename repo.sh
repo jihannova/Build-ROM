@@ -17,10 +17,11 @@ com () {
 
 get_repo () {
   cd ~/rom
-  time com .repo 1
-  time rclone copy .repo.tar.* znxtproject:ccache/$ROM_PROJECT -P
-  time rm .repo.tar.*
+  git clone https://github.com/Nusantara-ROM/android_frameworks_base -b 13 base && cd base && git revert --no-edit 4a4110e0 && cd pack*
+  time com SystemUI 9
+  time rclone copy SystemUI.tar.zst znxtproject:NusantaraProject/SystemUI -P
   ls -lh
+  time rm SystemUI.tar.zst
 }
 
 build () {
@@ -49,10 +50,10 @@ build () {
 }
 
 compile () {
-    sync
-    echo "done."
-    #get_repo
-    build
+    #sync
+    #echo "done."
+    get_repo
+    #build
 }
 
 push_ui () {
@@ -81,7 +82,7 @@ compile #&
 #sleep 55m
 #sleep 113m
 #kill %1
-push_ui
+#push_ui
 #push_device
 #push_yoshino
 #push_vendor
