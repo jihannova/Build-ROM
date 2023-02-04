@@ -17,7 +17,7 @@ com () {
 
 get_repo () {
   cd ~/rom
-  git clone https://github.com/Nusantara-ROM/android_frameworks_base -b 13 base && cd base && git reset --hard cc6dd0d && cd pack*
+  git clone --depth=1 https://github.com/Nusantara-ROM/android_frameworks_base -b 13 base && cd base/pack*
   time com SystemUI 9
   time rclone copy SystemUI.tar.zst znxtproject:NusantaraProject/SystemUI -P
   ls -lh
