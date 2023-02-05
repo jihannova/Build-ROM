@@ -2,11 +2,11 @@
     
 sync () {
     cd ~/rom
-    time rclone copy znxtproject:ccache/$ROM_PROJECT/.repo.tar.zst ~/rom -P
+    time rclone copy znxtproject:ccache/$ROM_PROJECT/maple/.repo.tar.zst ~/rom -P
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
-    cd fr*/b* && git fetch nad 13-arif && git checkout FETCH_HEAD
+    cd fr*/b* && git fetch https://github.com/ariffjenong/SystemUI 13 && git cherry-pick 4b66372
     cd ~/rom
 }
 
@@ -41,7 +41,7 @@ build () {
      export NAD_BUILD_TYPE=OFFICIAL
      export USE_PIXEL_CHARGING=true
      lunch nad_maple_dsds-user
-    make SystemUI -j8
+    make SystemUI services -j8
     #make Settings -j8
     #make systemimage -j8
     #make vendorimage -j8
@@ -50,15 +50,16 @@ build () {
 }
 
 compile () {
-    #sync
-    #echo "done."
-    get_repo
-    #build
+    sync
+    echo "done."
+    #get_repo
+    build
 }
 
 push_ui () {
-  cd ~/rom/out/target/product/map*/system/sys*ext/priv*/SystemUI && ls
-  rclone copy SystemUI.apk znxtproject:NusantaraProject/test -P
+  cd ~/rom
+  rclone copy out/target/product/map*/system/sys*ext/priv*/SystemUI/SystemUI.apk znxtproject:NusantaraProject/test -P
+  rclone copy out/target/product/map*/system/framework/services.jar znxtproject:NusantaraProject/test -P
 }
 
 push_device () {
@@ -82,7 +83,7 @@ compile #&
 #sleep 55m
 #sleep 113m
 #kill %1
-#push_ui
+push_ui
 #push_device
 #push_yoshino
 #push_vendor
