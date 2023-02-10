@@ -48,6 +48,9 @@ else
     bash $CIRRUS_WORKING_DIR/script/check_build.sh
     bash $CIRRUS_WORKING_DIR/script/ziping.sh
     export USE_GAPPS=true
+    bash -c "$build_script" || true
+    bash $CIRRUS_WORKING_DIR/script/check_build.sh
+    bash $CIRRUS_WORKING_DIR/script/ziping.sh
     JOB_END=$(date +"%s")
     JOB_TOTAL=$(($JOB_END - $JOB_START))
     curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="build job Done.

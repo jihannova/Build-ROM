@@ -30,7 +30,7 @@ timeStart
 lunch nad_lavender-userdebug
 mkfifo reading
 tee "${BUILDLOG}" < reading &
-build_message "Building for maple now"
+build_message "Building Started"
 progress &
 mka nad -j8  > reading
 
