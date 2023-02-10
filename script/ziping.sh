@@ -12,8 +12,8 @@ telegram_message() {
 }
 
 function enviroment() {
-device=$(ls $WORKDIR/rom/$name_rom/out/target/product)
 name_rom=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d / -f 4)
+device=$(ls $WORKDIR/rom/$name_rom/out/target/product)
 file_name=$(basename $(find $WORKDIR/rom/$name_rom/out/target/product/${device}/ -maxdepth 1 -name "*${device}*.zip" | perl -e 'print sort { length($b) <=> length($a) } <>' | head -n 1))
 branch_name=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh | awk -F "-b " '{print $2}' | awk '{print $1}')
 rel_date=$(date "+%Y%m%d")
@@ -32,16 +32,17 @@ echo -e \
 "
 <b>✅ Build Completed Successfully ✅</b>
 ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
-<b>🚀 Rom Name :- ${name_rom}</b>
-<b>📁 File Name :-</b> <code>"${file_name}"</code>
-<b>⏰ Timer Build :- "$(grep "#### build completed successfully" $WORKDIR/rom/$name_rom/build.log -m 1 | cut -d '(' -f 2)"</b>
-<b>📱 Device :- "${device}"</b>
-<b>📂 Size :- "$(ls -lh ${file_name} | cut -d ' ' -f5)"</b>
-<b>🖥 Branch Build :- "${branch_name}"</b>
-<b>📅 Date :- "$(date +%d\ %B\ %Y)"</b>
-<b>🕔 Time Zone :- "$(date +%T)"</b>
-<b>📕 MD5 :-</b> <code>"$(md5sum *zip | cut -d' ' -f1)"</code>
-<b>📘 SHA1 :-</b> <code>"$(sha1sum *zip | cut -d' ' -f1)"</code>
+<b>🚀 Rom Name :- "${name_rom}"</b>
+<b>📁 File Name :- "${file_name}"</b>
+<b>⏰ Timer Build</b> :- "$(grep "#### build completed successfully" $WORKDIR/rom/$name_rom/build.log -m 1 | cut -d '(' -f 2)"
+<b>📱 Device</b> :- "${device}"
+<b>📂 Size :- "$(ls -lh ${file_name})"</b>
+<b>🖥 Branch Build</b> :- "${branch_name}"
+<b>📅 Date</b> :- "$(date +%d\ %B\ %Y)"
+<b>🕔 Time Zone</b> :- "$(date +%T)"
+<b>📕 MD5 :-</b> <code>"$(md5sum ${file_name})"</code>
+<b>📘 SHA1 :-</b> <code>"$(sha1sum ${file_name})"</code>
+<b>📥 Download link :- "GDrive/${device}"</b>
 ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
 " > tg.html
 TG_TEXT=$(< tg.html)
@@ -58,9 +59,9 @@ cd ..
   if [[ $device == maple_dsds ]]
       then
       rm -rf $device
-  elif [[ $device != maple_dsds && $file_name == *$device*GAPPS*.zip ]]
+  elif [[ $file_name != *${device}*GAPPS*.zip ]]
       then
-      rm $device/*.zip
+      rm $device/$file_name
   else
       echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
       msg Upload ccache..
