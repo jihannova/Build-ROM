@@ -75,10 +75,9 @@ retry_cacche () {
 	    git push origin HEAD:ccache-${DEVICE}
 	else
 	    echo "Ccache is fully configured"
-	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-${DEVICE} ${DEVICE}
-		time rclone copy znxtproject:NusantaraProject/ci/cchace1/${DEVICE}/repo.sh ${DEVICE} -P && cd ${DEVICE}
-	    git add . && git commit -m "get ccache Done at $(date -u +"%D %T%p %Z") [skip ci]"
-	    git push origin HEAD:ccache-${DEVICE}
+	    git clone ${TOKEN}/jihannova/Build-ROM -b nad-13_${DEVICE} ${DEVICE} && cd ${DEVICE}
+	    git commit --allow-empty -m "Build Lavender: $(date -u +"%D %T%p %Z")"
+	    git push origin HEAD:nad-13_${DEVICE}
 	fi
 }
 
