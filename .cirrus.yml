@@ -26,10 +26,10 @@ task:
   Build_script:
       #- ./repo.sh
       - cd ~/rom
-      - git clone https://github.com/ariffjenong/kernel_xiaomi_lavender -b 13-b kernel
+      - git clone https://github.com/ariffjenong/vendor_xiaomi_lavender -b 13 kernel
       - cd kernel
-      - git commit --amend --no-edit
-      - git push origin HEAD:13-b -f
+      - git fetch https://github.com/Coptan99/vendor_xiaomi_lavender tiramisu
+      - git cherry-pick 32bb92c && git push origin HEAD:13
 
   SF_script:
       - rm -rf ~/rom
