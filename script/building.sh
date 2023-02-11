@@ -4,17 +4,20 @@ set -e
 name_rom=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d / -f 4)
 branch_name=$(grep "build job" $CIRRUS_WORKING_DIR/build.sh | awk -F "-b " '{print $2}' | awk '{print $1}')
 device=$(grep product $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d ' ' -f 3 | cut -d _ -f 2 | cut -d - -f 1)
+type=$(grep type $CIRRUS_WORKING_DIR/build.sh -m 1 | cut -d ' ' -f 3 | cut -d _ -f 2 | cut -d - -f 1)
 build_maple_script=$(tail $CIRRUS_WORKING_DIR/build.sh -n +$(expr $(grep '# build rom' $CIRRUS_WORKING_DIR/build.sh -n | cut -f1 -d:) - 1)| head -n -1 | grep -v '# end')
 build_script=$(tail $CIRRUS_WORKING_DIR/build.sh -n +$(expr $(grep '# build for maple' $CIRRUS_WORKING_DIR/build.sh -n | cut -f1 -d:) - 1)| head -n -1 | grep -v '# end')
 if [[ $device == maple ]]
    then
     curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="New Job detected:
 ROM: $name_rom
-device: Sony Xperia XZ Premium"
+device: Sony Xperia XZ Premium
+Build for: $type"
 else
     curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="New Job detected:
 ROM: $name_rom
-device: $device"
+device: $device
+Build for: $type"
 fi
 mkdir -p $WORKDIR/rom/$name_rom
 cd $WORKDIR/rom/$name_rom

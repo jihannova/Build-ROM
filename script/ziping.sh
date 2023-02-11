@@ -27,7 +27,7 @@ msg Upload rom..
 echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
 cd $WORKDIR/rom/$name_rom
 rclone copy out/target/product/$device/${file_name} znxtproject:$name_rom/$device -P
-cd $WORKDIR/rom/$name_rom/out/target/product/$device
+cd out/target/product/$device
 echo -e \
 "
 <b>✅ Build Completed Successfully ✅</b>
@@ -36,12 +36,12 @@ echo -e \
 <b>📁 File Name :- "${file_name}"</b>
 <b>⏰ Timer Build</b> :- "$(grep "#### build completed successfully" $WORKDIR/rom/$name_rom/build.log -m 1 | cut -d '(' -f 2)"
 <b>📱 Device</b> :- "${device}"
-<b>📂 Size :- "$(ls -lh ${file_name})"</b>
+<b>📂 Size :- "$(ls -lh ${file_name} | cut -d ' ' -f5)"</b>
 <b>🖥 Branch Build</b> :- "${branch_name}"
 <b>📅 Date</b> :- "$(date +%d\ %B\ %Y)"
 <b>🕔 Time Zone</b> :- "$(date +%T)"
-<b>📕 MD5 :-</b> <code>"$(md5sum ${file_name})"</code>
-<b>📘 SHA1 :-</b> <code>"$(sha1sum ${file_name})"</code>
+<b>📕 MD5 :-</b> <code>"$(md5sum ${file_name} | cut -d' ' -f1)"</code>
+<b>📘 SHA1 :-</b> <code>"$(sha1sum ${file_name} | cut -d' ' -f1)"</code>
 <b>📥 Download link :- "GDrive/${device}"</b>
 ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
 " > tg.html
@@ -59,14 +59,14 @@ cd ..
   if [[ $device == maple_dsds ]]
       then
       rm -rf $device
-  elif [[ $file_name != *${device}*GAPPS*.zip ]]
+  elif [[ $USE_GAPPS ]]
       then
-      rm $device/$file_name
-  else
       echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
       msg Upload ccache..
       echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
       upload_ccache
+  else
+      rm $device/$file_name
   fi
 }
 
