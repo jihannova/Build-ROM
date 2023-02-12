@@ -8,7 +8,6 @@ sync () {
     #time tar -xaf .repo.tar.zst
     #time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
-    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 }
 
 com () {
@@ -19,7 +18,7 @@ com () {
 get_repo () {
   cd ~/rom
   time com .repo 1
-  time rclone copy .repo.tar.* znxtproject:ccache/$ROM_PROJECT -P
+  time rclone copy .repo.tar.* znxtproject:ccache/$ROM_PROJECT/maple -P
   time rm .repo.tar.*
   ls -lh
 }
