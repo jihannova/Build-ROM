@@ -17,7 +17,7 @@ task:
   timeout_in: 1h
   container:
     image: arifjenong/rom:nad
-    cpu: 6
+    cpu: 4
     memory: 16G
 
   Env_background_script:
