@@ -2,10 +2,9 @@
 
 # product maple
 
+# type Realese
+
 # build rom
-curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="Start Sync source"
-repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
-curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="Sync Completed."
 source $CIRRUS_WORKING_DIR/script/config
 timeStart
 
@@ -15,25 +14,27 @@ rclone copy znxtproject:CherishOS/frameworks/ActivityTaskManagerService.java fr*
 lunch cherish_maple_dsds-user
 mkfifo reading
 tee "${BUILDLOG}" < reading &
-build_message "Building Started"
-progress &
-mka bacon -j16  > reading
+build_gapps_message "Building Started"
+progress_gapps &
+mka bacon  > reading
 
 retVal=$?
 timeEnd
-statusBuild
+statusBuildGapps
+bash $CIRRUS_WORKING_DIR/script/ziping.sh
 
 # build for maple
+source $CIRRUS_WORKING_DIR/script/config
 timeStart
 
 lunch cherish_maple-user
 mkfifo reading
 tee "${BUILDLOG}" < reading &
-build_message "Building for maple now"
-progress &
-mka bacon -j16  > reading
+build_gapps_message "Building for maple Now"
+progress_gapps &
+mka bacon -j8  > reading
 
 retVal=$?
 timeEnd
-statusBuild
+statusBuildGapps
 # end
