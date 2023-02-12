@@ -26,11 +26,10 @@ task:
   Build_script:
       #- ./repo.sh
       - cd ~/rom
-      - git clone https://github.com/ariffjenong/android_kernel_sony_msm8998 -b 13-wip kernel
+      - git clone https://github.com/ariffjenong/vendor_xiaomi_lavender -b 13 kernel
       - cd kernel
-      - git commit --amend --no-edit
-      - git fetch https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 13-wip
-      - git cherry-pick -s 88666ac^..2b1d25b && git push https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 HEAD:13-wip -f
+      - git reset --hard HEAD^
+      - git push origin HEAD:13 -f
 
   SF_script:
       - rm -rf ~/rom
