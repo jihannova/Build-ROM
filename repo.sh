@@ -2,7 +2,7 @@
     
 sync () {
     cd ~/rom
-    time rclone copy znxtproject:ccache/$ROM_PROJECT/.repo.tar.zst ~/rom -P
+    time rclone copy znxtproject:ccache/$ROM_PROJECT/maple/.repo.tar.zst ~/rom -P
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
@@ -58,15 +58,13 @@ retry_cacche () {
 	export CCACHE_EXEC=$(which ccache)
 	hit_rate=$(ccache -s | awk 'NR==2 { print $5 }' | tr -d '(' | cut -d'.' -f1)
 	if [ $hit_rate -lt 99 ]; then
-	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-cherish ${DEVICE}
-		time rclone copy znxtproject:CherishOS/ci/cchace2/repo.sh ${DEVICE} -P && cd ${DEVICE}
-		git add . && git commit -m "Retry Cacche $(date -u +"%D %T%p %Z")"
+	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-cherish ${DEVICE} && cd ${DEVICE}
+		git commit -allow-empty -m "Retry Cacche $(date -u +"%D %T%p %Z")"
 	    git push origin HEAD:ccache-cherish
 	else
 	    echo "Ccache is fully configured"
-	    git clone ${TOKEN}/jihannova/Build-ROM -b ccache-cherish ${DEVICE}
-		time rclone copy znxtproject:CherishOS/ci/cchace3/repo.sh ${DEVICE} -P && cd ${DEVICE}
-	    git add . && git commit -m "get ccache Done at $(date -u +"%D %T%p %Z") [skip ci]"
+	    git clone ${TOKEN}/jihannova/Build-ROM -b CherishOS-T ${DEVICE} && cd ${DEVICE}
+	    git commit --allow-empty -m "Building now $(date -u +"%D %T%p %Z")"
 	    git push origin HEAD:ccache-cherish
 	fi
 }
@@ -79,10 +77,7 @@ upload() {
 	echo "$TOKEN" > ~/.git-credentials
 	git config --global credential.helper store --file=~/.git-credentials
 	if [ -f ~/rom/out/target/product/${DEVICE}/${ZIPNAME} ]; then
-		echo "Successfully Build"
-		time rclone copy ~/rom/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:CherishOS/${DEVICE} -P
-		echo "Build maple now"
-		build_maple
+		retry_cacche
 	else
 		echo "Build failed"
 		retry_cacche
@@ -103,7 +98,7 @@ upload_maple() {
 cd ~/rom
 ls -lh
 compile &
-sleep 100m
+sleep 110m
 kill %1
 compiled_zip
 upload
