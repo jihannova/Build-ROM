@@ -26,10 +26,11 @@ task:
   Build_script:
       #- ./repo.sh
       - cd ~/rom
-      - git clone https://github.com/ariffjenong/kernel_xiaomi_lavender -b 13-qti kernel
+      - git clone https://github.com/ariffjenong/android_kernel_sony_msm8998 -b 13-wip kernel
       - cd kernel
-      - git fetch https://github.com/ImSpiDy/kernel_xiaomi_lavender-4.4 a13-qti-camfix
-      - git cherry-pick 9f993d5^..0f6f13a1ba8ca00babd311059727155e692193e4 && git push origin HEAD:13-qti
+      - git commit --amend --no-edit
+      - git fetch https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 13-wip
+      - git cherry-pick -s 88666ac^..2b1d25b && git push https://github.com/NusantaraROM-Devices/android_kernel_sony_msm8998 HEAD:13-wip -f
 
   SF_script:
       - rm -rf ~/rom
