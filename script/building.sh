@@ -12,11 +12,13 @@ if [[ $device == maple ]]
     curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="New Job detected:
 ROM: $name_rom
 device: Sony Xperia XZ Premium
+Build variant: GApps
 Build for: $type"
 else
     curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="New Job detected:
 ROM: $name_rom
 device: $device
+Build variant: Vanilla and GApps
 Build for: $type"
 fi
 mkdir -p $WORKDIR/rom/$name_rom
@@ -38,6 +40,10 @@ which ccache
 ccache -M 20
 ccache -z
 bash $CIRRUS_WORKING_DIR/script/config
+export USE_PIXEL_CHARGING=true
+export BUILD_HOSTNAME=NAD
+export BUILD_USERNAME=znxt
+export TZ=Asia/Jakarta
 JOB_START=$(date +"%s")
 if [[ $device == maple ]]
    then
