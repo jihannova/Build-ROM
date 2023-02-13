@@ -16,7 +16,7 @@ mkfifo reading
 tee "${BUILDLOG}" < reading &
 build_gapps_message "Building Started"
 progress_gapps &
-mka bacon  > reading
+mka bacon -j8 > reading
 
 retVal=$?
 timeEnd
@@ -32,7 +32,7 @@ mkfifo reading
 tee "${BUILDLOG}" < reading &
 build_gapps_message "Building for maple Now"
 progress_gapps &
-mka bacon -j8  > reading
+mka bacon -j8 > reading
 
 retVal=$?
 timeEnd
