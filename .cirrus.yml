@@ -22,7 +22,7 @@ task:
 
   ccc_background_script:
       - sleep 120
-      - time rclone copy znxtproject:ccache/$ROM_PROJECT/ccache.tar.zst ~ -P
+      - time rclone copy znxtproject:ccache/$ROM_PROJECT/maple/ccache.tar.zst ~ -P
       - ./setup.sh
 
   Build_script:
