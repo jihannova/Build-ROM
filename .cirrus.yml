@@ -26,9 +26,9 @@ task:
   Build_script:
       #- ./repo.sh
       - cd ~/rom
-      - git clone https://github.com/ariffjenong/kernel_xiaomi_lavender -b 13-base_cip kernel
+      - git clone https://github.com/ariffjenong/kernel_xiaomi_lavender -b 13-base kernel
       - cd kernel
-      - git checkout 2e69f2a && git cherry-pick 2e69f2a..5a8c928
+      - git checkout 4182872 && git cherry-pick f09e581^..37ffeec
       - git push origin HEAD:13-base -f
 
   SF_script:
