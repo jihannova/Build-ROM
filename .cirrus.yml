@@ -28,7 +28,7 @@ task:
       - cd ~/rom
       - git clone https://github.com/ariffjenong/kernel_xiaomi_lavender -b 13-base kernel
       - cd kernel
-      - git commit --amend --author="ariffjenong<arifbuditantodablekk@gmail.com>" --no-edit
+      - git checkout 4547bc7 && git cherry-pick 4547bc7..4712483
       - git push origin HEAD:13-base -f
 
   SF_script:
