@@ -25,6 +25,7 @@ task:
 
   ccc_background_script:
       - cp egl.diff ~/egl.diff
+      - cp grap.diff ~/grap.diff
       - sleep 150
       - time rclone copy znxt:ccache/$ROM_PROJECT/maple/ccache.tar.zst ~ -P
       - ./setup.sh

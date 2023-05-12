@@ -1,0 +1,17 @@
+diff --git a/minui/graphics_fbdev.cpp b/minui/graphics_fbdev.cpp
+index 4a7d3252..2711af74 100644
+--- a/minui/graphics_fbdev.cpp
++++ b/minui/graphics_fbdev.cpp
+@@ -44,7 +44,11 @@ void MinuiBackendFbdev::Blank(bool blank) {
+ }
+ 
+ void MinuiBackendFbdev::Blank(bool blank, DrmConnector index) {
+-  fprintf(stderr, "Unsupported multiple connectors, blank = %d, index = %d\n", blank, index);
++  if (index == DRM_MAIN) {
++    MinuiBackendFbdev::Blank(blank);
++  } else {
++    fprintf(stderr, "Unsupported multiple connectors, blank = %d, index = %d\n", blank, index);
++  }
+ }
+ 
+ bool MinuiBackendFbdev::HasMultipleConnectors() {

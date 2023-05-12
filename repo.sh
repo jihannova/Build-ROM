@@ -8,7 +8,7 @@ sync () {
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
     rm -rf hardware/nad/compat
     cd fr*/native && git apply ~/egl.diff && cd ../..
-    cd boo*/reco* && curl https://github.com/CarbonROM/android_bootable_recovery/commit/48a06a2e00b9bda444f79b6b72d0c99bd89832e5.diff | git apply
+    cd boo*/reco* && git apply ~/grap.diff
 }
 
 com () {
