@@ -2,7 +2,7 @@
     
 sync () {
     cd ~/rom
-    time rclone copy znxtproject:ccache/$ROM_PROJECT/lavender/.repo.tar.zst ~/rom -P
+    time rclone copy znxt:ccache/$ROM_PROJECT/lavender/.repo.tar.zst ~/rom -P
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
@@ -16,8 +16,8 @@ com () {
 get_repo () {
   cd ~/rom
   time com .repo 1
-  time rclone copy .repo.tar.* znxtproject:ccache/$ROM_PROJECT -P
-  time rm .repo.tar.*
+  time rclone copy .repo.tar.* znxt:ccache/$ROM_PROJECT -P
+  time rm .repo.tar.zst
   ls -lh
 }
 
@@ -101,7 +101,7 @@ upload() {
 upload_gapps() {
 	if [ -f ~/rom/out/target/product/${DEVICE}/${ZIPNAME} ]; then
 		echo "Successfully Build"
-		time rclone copy ~/rom/out/target/product/${DEVICE}/${ZIPNAME} znxtproject:NusantaraProject/${DEVICE} -P
+		time rclone copy ~/rom/out/target/product/${DEVICE}/${ZIPNAME} znxt:NusantaraProject/${DEVICE} -P
 	else
 		echo "Build failed"
 	fi
