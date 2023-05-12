@@ -26,7 +26,7 @@ echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
 msg Upload rom..
 echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
 cd $WORKDIR/rom/$name_rom
-rclone copy out/target/product/$device/${file_name} znxtproject:$name_rom/$device -P
+rclone copy out/target/product/$device/${file_name} znxt:$name_rom/$device -P
 cd out/target/product/$device
 echo -e \
 "
@@ -77,7 +77,7 @@ com ()
   tar "-I zstd -1 -T2" -cf $1.tar.zst $1
 }
 time com ccache 1
-rclone copy --drive-chunk-size 256M --stats 1s ccache.tar.zst znxtproject:ccache/${name_rom}-${branch_name}/$device -P
+rclone copy --drive-chunk-size 256M --stats 1s ccache.tar.zst znxt:ccache/${name_rom}-${branch_name}/$device -P
 rm -rf ccache.tar.zst
 echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
 msg Upload ccache succes..

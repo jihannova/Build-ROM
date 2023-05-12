@@ -23,7 +23,7 @@ Build for: $type"
 fi
 mkdir -p $WORKDIR/rom/$name_rom
 cd $WORKDIR/rom/$name_rom
-time rclone copy znxtproject:ccache/${name_rom}-${branch_name}/$device/.repo.tar.zst $WORKDIR/rom/$name_rom -P
+time rclone copy znxt:ccache/${name_rom}-${branch_name}/$device/.repo.tar.zst $WORKDIR/rom/$name_rom -P
 time tar -xaf .repo.tar.zst
 rm -rf .repo.tar.zst
 sync() {
