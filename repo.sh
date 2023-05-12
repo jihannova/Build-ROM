@@ -3,9 +3,8 @@
 sync () {
     cd ~/rom
     repo init --depth=1 --no-repo-verify -u ${Nusantara} -b 13 -g default,-mips,-darwin,-notdefault
-    rclone copy znxtproject:NusantaraProject/manifest/13-lavender/nusantara.xml .repo/manifests/snippets -P
-    rclone copy znxtproject:NusantaraProject/manifest/13-lavender/nad_lavender.xml .repo/local_manifests -P
-    repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+    rclone copy znxt:NusantaraProject/manifest/13-lavender/nusantara.xml .repo/manifests/snippets -P
+    rclone copy znxt:NusantaraProject/manifest/13-lavender/nad_lavender.xml .repo/local_manifests -P
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 }
 
@@ -17,7 +16,7 @@ com () {
 get_repo () {
   cd ~/rom
   time com .repo 1
-  time rclone copy .repo.tar.* znxtproject:ccache/$ROM_PROJECT/lavender -P
+  time rclone copy .repo.tar.* znxt:ccache/$ROM_PROJECT/lavender -P
   time rm *tar.*
   ls -lh
 }
