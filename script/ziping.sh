@@ -56,10 +56,7 @@ echo Download Link: ${DL_LINK}
 echo
 echo
 cd ..
-  if [[ $device == maple_dsds ]]
-      then
-      rm -rf $device
-  elif [[ $USE_GAPPS ]]
+  if [[ $USE_GAPPS ]]
       then
       echo ━━━━━━━━━ஜ۩۞۩ஜ━━━━━━━━
       msg Upload ccache..
