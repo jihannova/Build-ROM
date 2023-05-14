@@ -6,6 +6,7 @@ sync () {
     time tar -xaf .repo.tar.zst
     time rm -rf .repo.tar.zst
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+    cd ker*/x*/la* && git fetch ariffjenong 13-b --depth=1 && git checkout FETCH_HEAD
 }
 
 build () {
@@ -32,7 +33,7 @@ compile () {
 
 upload() {
     cd ~
-	time rclone copy ~/rom/out/target/product/lavender/boot.img znxt:NusantaraProject/lavender -P
+	time rclone copy ~/rom/out/target/product/lavender/boot.img znxt:NusantaraProject/lavender/tes -P
 }
 
 cd ~/rom
