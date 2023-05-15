@@ -2,7 +2,7 @@
 
 # product lavender
 
-# type Realese
+# type HOTFIX
 
 # build rom
 source $CIRRUS_WORKING_DIR/script/config
