@@ -29,6 +29,7 @@ rm -rf .repo.tar.zst
 sync() {
     curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="Start Sync source"
     repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+    rm packages/apps/ThemePicker/themes/res/values/banana*
     curl -s https://api.telegram.org/$TG_TOKEN/sendMessage -d chat_id=$TG_CHAT_ID -d text="Sync Completed."
 }
 export PATH="/usr/lib/ccache:$PATH"
